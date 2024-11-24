@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <style>
+    body {
+      background-color: #2c3e50;
+    }
+
+    .container{
+        display:flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 3rem;
+    }
+
+    .form-div{
+        font-size: 1.3rem;
+        font-family: Helvetica;
+        width: 40vw;
+        height: 70vh;
+        background-color: #ECF0F1;
+        padding: 3rem;
+        border-radius: 2rem
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 3rem;
+    }
+
+    input{
+        width: 100%;
+        padding: 7px;
+        font-size: 1.3rem;
+        border-radius: 8px;
+        outline: none;
+        border-color: #eee;
+        border: 2px solid grey;
+    }
+
+    input:focus{
+        border-color: blue
+    }
+
+    h1 {
+        text-align: center;
+    }
+
+    .submit{
+        padding: 1rem;
+        background-color: #E74C3C;
+        width: 100%;
+        border-radius: 10px;
+        font-size: 1.4rem;
+        
+        
+        
+    }
+  </style>
+  <body>
+      <h1>Sign up</h1>
+    <div class="container">
+
+      <div class="form-container">
+        <div class="form-div">
+          <form action="/sign-up" method="POST">
+            <div>
+              <label for="username">Username</label>
+              <input type="text" name="username" />
+            </div>
+  
+            <div>
+              <label for="email">Email</label>
+              <input type="email" name="email" id="email" />
+            </div>
+  
+            <div>
+              <label for="password">Password</label>
+              <input type="password" name="password" />
+            </div>
+  
+            <div>
+              <label for="confirmPassword">Confirm Password</label>
+              <input type="password" name="confirmPassword" />
+            </div>
+  
+            <button class="submit" type="submit">Sign up</button>
+          </form>
+        </div>
+      </div>
+    
+    </div>
+  </body>
+</html>
