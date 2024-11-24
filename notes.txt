@@ -1,0 +1,8 @@
+
+
+tables: User, File, Folder
+
+
+User: ID, userName, email, password
+File: name, size, extention, url 
+Folder, name, [files]
