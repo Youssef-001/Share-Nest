@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <style>
+      body {
+        background-color: #E8F5E9;
+      }
+
+      .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 3rem;
+      }
+
+      .form-div {
+        font-size: 1.3rem;
+        font-family: Helvetica;
+        width: 40vw;
+        height: 50vh;
+        background-color: #FFFFFF;
+        padding: 3rem;
+        border-radius: 2rem;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+      }
+
+      input {
+        width: 100%;
+        padding: 12px;
+        font-size: 1.3rem;
+        border-radius: 8px;
+        outline: none;
+        border: 2px solid grey;
+      }
+
+      input:focus {
+        border-color: blue;
+      }
+
+      h1 {
+        text-align: center;
+      }
+
+      .submit {
+        padding: 1rem;
+        background-color: #388E3C;
+        width: 100%;
+        border-radius: 10px;
+        font-size: 1.4rem;
+        color: #ffffff;
+        border: none;
+        cursor: pointer;
+      }
+
+      .submit:hover {
+        background-color: #2e7d32;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <%- include('header') %>
+    </header>
+    <h1>Login</h1>
+    <div class="container">
+      <div class="form-container">
+        <div class="form-div">
+          <form action="/login" method="POST">
+            <div>
+              <label for="email">Email</label>
+              <input type="email" name="email" id="email" required />
+            </div>
+
+            <div>
+              <label for="password">Password</label>
+              <input type="password" name="password" id="password" required />
+            </div>
+
+            <button class="submit" type="submit">Login</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
