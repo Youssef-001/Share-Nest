@@ -21,31 +21,31 @@ model Session {
   expiresAt   DateTime
 }
 
-model User {
+model users {
   id Int @id @default(autoincrement())
   username String 
   email String @unique
   password String
-  folders Folder[]
+  folders folder[]
 }
 
 
-model File {
+model file {
   id Int @id @default(autoincrement())
   name String
   size Int
   extention FileExtension
   url String
-  folder Folder @relation(fields: [folderId], references: [id])
+  folder folder @relation(fields: [folderId], references: [id])
   folderId Int
 
 }
 
-model Folder {
+model folder {
     id Int @id @default(autoincrement())
-    owner User @relation(fields: [ownerId], references: [id])
+    owner users @relation(fields: [ownerId], references: [id])
     ownerId Int
-    files File[]
+    files file[]
 
 }
 

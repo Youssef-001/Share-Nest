@@ -2,7 +2,7 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 async function createUser(userData) {
-    const user = await prisma.user.create({
+    const user = await prisma.users.create({
         data: {
             username: userData.username,
             email: userData.email,
@@ -14,7 +14,7 @@ async function createUser(userData) {
 
 async function getUser(email)
 {
-    const user = await prisma.user.findUnique({
+    const user = await prisma.users.findUnique({
         where: {
             email: email
         }
@@ -26,7 +26,7 @@ async function getUser(email)
 
 async function getUserById(id)
 {
-    const user = await prisma.user.findUnique({
+    const user = await prisma.users.findUnique({
         where: {
             id:id
         }
