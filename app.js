@@ -12,7 +12,8 @@ const PrismaStore = require('@quixo3/prisma-session-store').PrismaSessionStore;
 const db = require("./database/queries");
 app.use(express.urlencoded({ extended: false }));
 const prisma = new PrismaClient();
-
+const multer  = require('multer')
+const upload = multer({ dest: 'uploads/' })
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
@@ -116,6 +117,13 @@ app.post(
     failureRedirect: "/login",
   })
 );
+
+app.post('/file', upload.single('file'), function (req, res, next) {
+  // req.file is the `avatar` file
+  // req.body will hold the text fields, if there were any
+  console.log(req.file);
+})
+
 
 app.use((req, res, next) => {
   console.log('Session:', req.session);
