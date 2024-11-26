@@ -27,6 +27,8 @@
   display: inline-block;
   padding: 6px 12px;
   cursor: pointer;
+  padding-right: 4rem;
+  border: 1px solid teal;
 }
 .container1{
     display: flex;
@@ -39,7 +41,7 @@
 
 .container2{
     display: flex;
-    justify-content: center;
+    /* justify-content: center; */
     align-items: center;
     flex-direction: column;
 
@@ -70,7 +72,7 @@ form{
 .container1 {
     color: #2D3748;
 }
-.container1 label {
+.container1,.container2 label {
     border: none;
     
 }
@@ -134,11 +136,58 @@ li{
 
 }
 
+
+main{
+    display:grid;
+
+    grid-template-rows: auto auto 1fr;
+    gap: 2rem;
+
+}
+
+#search{
+    padding: 1rem;
+    /* width: 80%; */
+    justify-content: center;
+    align-items: center;
+    border-radius: 12px;
+    border: 1px solid grey;
+    width: 70vw;
+    font-size: 1.3rem;
+
+}
+.search{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2rem;
+    grid-row: 1/2;
+}
+
+.controls{
+    grid-row: 2/3;
+}
+
+
+
+#search:focus{
+    border: 1px solid blue;
+}
+
+
 </style>
+
+
 <body>
 
 
-
+    <main>
+        <div class="search">
+            <form action="/">
+                <input type="search" placeholder="🔍 Search" name="search" id="search">
+                
+            </form>
+        </div>
         <% if (files.length === 0) { %>
             <div class="container1">
 
@@ -180,22 +229,79 @@ li{
                 <% }); %>
                 </div>
 
-            <form action="/upload" method="post" enctype="multipart/form-data">
-                <label for="file-upload" class="custom-file-upload">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 10.5v6m3-3H9m4.06-7.19-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
-                    </svg>
-                </label>
-                <input id="file-upload" type="file" name="file" />
-                <button class="upload-button" id="uploadButton" aria-label="Upload File">
-                    <span class="icon">📁</span> Upload
-                  </button>
-            </form>
+           
         </div>
         
         <% } %>
         
 
     </div>
+
+    <div class="controls">
+        <form id="upload" action="/upload" method="post" enctype="multipart/form-data">
+
+        
+            <!-- <button class="upload-button" id="uploadButton" aria-label="Upload File">
+                <span class="icon">📁</span> Upload
+              </button> -->
+    
+              <div style="display:flex;">
+                <label for="file-upload" class="custom-file-upload">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 10.5v6m3-3H9m4.06-7.19-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
+                    </svg>
+                    <h3>Upload</h3>
+                </label>
+                <input id="file-upload" type="file" name="file" />
+    
+              </div>
+              
+        </form>
+
+
+        <dialog>
+            <button autofocus>Close</button>
+            <p>This modal dialog has a groovy backdrop!</p>
+          </dialog>
+          <button>Show the dialog</button>
+          
+
+    </div>
+
+   
+
+
+
+    </main>
+
+      
 </body>
+<script>
+    document.getElementById('file-upload').addEventListener('change', function () {
+      // Get the form element
+      const form = document.getElementById('upload');
+      
+      // Submit the form automatically
+      form.submit();
+    });
+  </script>
+
+
+
+<script>
+    const dialog = document.querySelector("dialog");
+const showButton = document.querySelector("dialog + button");
+const closeButton = document.querySelector("dialog button");
+
+// "Show the dialog" button opens the dialog modally
+showButton.addEventListener("click", () => {
+  dialog.showModal();
+});
+
+// "Close" button closes the dialog
+closeButton.addEventListener("click", () => {
+  dialog.close();
+});
+
+  </script>
 </html>
