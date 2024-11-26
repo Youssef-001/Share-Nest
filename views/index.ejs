@@ -29,10 +29,10 @@
     </style>
 </head>
 <body>
-    <%=authenticated%>
+    
     <%-include('header', {authenticated})%>
     <%-include('home')%>
-    <%-include('sidebar')%>
+    <%-include('sidebar', {folders})%>
 
 
 </body>

@@ -48,7 +48,7 @@ app.get("/", (req, res) => {
   if (req.isAuthenticated() == false)
     res.redirect('/login');
   else{
-    res.render("index", {authenticated: req.isAuthenticated()});
+    userController.renderAuthUser(req,res);
   }
 });
 

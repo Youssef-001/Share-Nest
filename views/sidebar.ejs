@@ -28,7 +28,12 @@
 <body>
     <aside>
         <div class="sidebar">
-            <h3>sidebar</h3>
+            <!-- Folders list rendered dynamically -->
+            <ul>
+                <% folders.forEach(function(folder) { %>
+                    <li><%= folder.name %></li>
+                <% }); %>
+            </ul>
         </div>
     </aside>
 </body>

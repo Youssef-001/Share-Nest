@@ -22,5 +22,15 @@ function createUser(req,res,next)
       }
 }
 
+async function renderAuthUser(req,res)
+{
+    let userId = req.session.passport.user;
+        let userFolders = await db.getUserFolders(userId);
+        console.log(userFolders)
 
-module.exports = {createUser}
+        res.render("index", {authenticated: req.isAuthenticated(), folders: userFolders});
+
+}
+
+
+module.exports = {createUser,renderAuthUser}
