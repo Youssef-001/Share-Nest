@@ -27,8 +27,8 @@ async function renderAuthUser(req,res)
     let userId = req.session.passport.user;
         let userFolders = await db.getUserFolders(userId);
         console.log(userFolders)
-
-        res.render("index", {authenticated: req.isAuthenticated(), folders: userFolders});
+        let folderFiles = await db.GetFolderFiles(req.query.folder);
+        res.render("index", {authenticated: req.isAuthenticated(), folders: userFolders, files: folderFiles});
 
 }
 

@@ -69,5 +69,16 @@ async function getUserFolders(id)
     return userFolders;
 }
 
+async function GetFolderFiles(id)
+{
+    let folderFiles = await prisma.file.findMany({
+        where: {
+            folderId: parseInt(id)
+        }
+    })
 
-module.exports = { createUser, getUser, getUserById, getUserId, createInitialFolder, getUserFolders };
+    return folderFiles;
+}
+
+
+module.exports = { createUser, getUser, getUserById, getUserId, createInitialFolder, getUserFolders, GetFolderFiles};
