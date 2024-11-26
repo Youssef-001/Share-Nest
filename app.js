@@ -5,36 +5,46 @@ const LocalStrategy = require("passport-local").Strategy;
 const bcrypt = require("bcryptjs");
 const app = express();
 const expressSession = require("express-session");
-const { PrismaSessionStore } = require("@quixo3/prisma-session-store");
+const PrismaSessionStore = require('./database/store');
 const { PrismaClient } = require("@prisma/client");
 const path = require("path");
-
+const PrismaStore = require('@quixo3/prisma-session-store').PrismaSessionStore;
 const db = require("./database/queries");
 app.use(express.urlencoded({ extended: false }));
+const prisma = new PrismaClient();
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
-app.get("/", (req, res) => {
-  res.render("index");
-});
 
 app.use(
   expressSession({
     cookie: {
-      maxAge: 7 * 24 * 60 * 60 * 1000, // ms
+     maxAge: 7 * 24 * 60 * 60 * 1000 // ms
     },
-    secret: "a santa at nasa",
+    secret: 'a santa at nasa',
     resave: true,
     saveUninitialized: true,
-    store: new PrismaSessionStore(new PrismaClient(), {
-      checkPeriod: 2 * 60 * 1000, //ms
-      dbRecordIdIsSessionId: true,
-      dbRecordIdFunction: undefined,
-    }),
+    store: new PrismaSessionStore(
+      new PrismaClient(),
+      {
+        checkPeriod: 2 * 60 * 1000,  //ms
+        dbRecordIdIsSessionId: true,
+        dbRecordIdFunction: undefined,
+      }
+    )
   })
 );
 app.use(passport.initialize());
 app.use(passport.session());
+
+
+app.get("/", (req, res) => {
+  console.log(req.session);  // Check if the session is correctly populated
+  console.log(req.user);
+  console.log(req.passport)
+    res.render("index");
+});
+
 
 app.get("/sign-up", (req, res) => {
   res.render("sign-up");
@@ -107,13 +117,20 @@ app.post(
   })
 );
 
+app.use((req, res, next) => {
+  console.log('Session:', req.session);
+  console.log('User:', req.user);
+  console.log('Is Authenticated:', req.isAuthenticated());
+  next();
+});
+
 
 app.get("/logout", (req, res, next) => {
   req.logout((err) => {
     if (err) {
       return next(err);
     }
-    res.redirect("/");
+    res.redirect("/login");
   });
 });
 

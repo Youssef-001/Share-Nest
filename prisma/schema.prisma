@@ -13,13 +13,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model Session {
   id        String   @id
   sid       String   @unique
-  data      String    // MediumText may be needed for MySql
+  data      String     // MediumText may be needed for MySql
   expiresAt   DateTime
 }
+ 
 
 model users {
   id Int @id @default(autoincrement())
