@@ -6,14 +6,34 @@
     <title>Document</title>
     <style>
         body{
-            background-color: #E8F5E9;
+            background-color: #F6F6F6;
+            display: grid;
+            grid-template-rows: auto 1fr;
+            grid-template-columns: auto 1fr;
+            
 
+        }
+
+        header{
+            grid-row: 1/2;
+            grid-column: 1/-1;
+            padding: 2rem;
+        }
+
+        aside{
+            grid-row: 2/-1;
+            grid-column: 1/2;
+        
+        
         }
     </style>
 </head>
 <body>
-    <%-include('header')%>
+    <%=authenticated%>
+    <%-include('header', {authenticated})%>
     <%-include('home')%>
+    <%-include('sidebar')%>
+
 
 </body>
 </html>

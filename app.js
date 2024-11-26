@@ -14,6 +14,8 @@ app.use(express.urlencoded({ extended: false }));
 const prisma = new PrismaClient();
 const multer  = require('multer')
 const upload = multer({ dest: 'uploads/' })
+const fileController = require('./controllers/fileController')
+const userController = require('./controllers/userController')
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
@@ -43,32 +45,26 @@ app.get("/", (req, res) => {
   console.log(req.session);  // Check if the session is correctly populated
   console.log(req.user);
   console.log(req.passport)
-    res.render("index");
+  if (req.isAuthenticated() == false)
+    res.redirect('/login');
+  else{
+    res.render("index", {authenticated: req.isAuthenticated()});
+  }
 });
 
 
 app.get("/sign-up", (req, res) => {
-  res.render("sign-up");
+  res.render("sign-up", {authenticated: req.isAuthenticated()});
 });
 
 app.get("/login", (req, res) => {
-  res.render("login");
+  console.log(req.isAuthenticated());
+  res.render("login", {authenticated: req.isAuthenticated()});
 });
 
 app.post("/sign-up", async (req, res, next) => {
-  try {
-    bcrypt.hash(req.body.password, 10, async (err, hashedPassword) => {
-      if (err) return next(err);
-      else {
-        console.log(req.body);
-        let userData = { ...req.body, hashedPassword };
-        await db.createUser(userData);
-        res.redirect("/");
-      }
-    });
-  } catch (err) {
-    return next(err);
-  }
+  userController.createUser(req,res,next);
+  
 });
 
 passport.use(
@@ -118,10 +114,8 @@ app.post(
   })
 );
 
-app.post('/file', upload.single('file'), function (req, res, next) {
-  // req.file is the `avatar` file
-  // req.body will hold the text fields, if there were any
-  console.log(req.file);
+app.post('/upload', upload.single('file'), function (req, res, next) {
+  fileController.fileUpload(req,res,next);
 })
 
 

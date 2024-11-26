@@ -42,7 +42,8 @@ model file {
 }
 
 model folder {
-    id Int @id @default(autoincrement())
+    id Int @id  @default(autoincrement())
+    name String @default("New Folder")
     owner users @relation(fields: [ownerId], references: [id])
     ownerId Int
     files file[]

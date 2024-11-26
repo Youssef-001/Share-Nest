@@ -33,4 +33,41 @@ async function getUserById(id)
     })
     return user;
 }
-module.exports = { createUser, getUser, getUserById };
+
+
+
+async function getUserId(email)
+{
+    const user = await prisma.users.findUnique({
+        where: {
+            email:email
+        }
+    })
+    return user;
+}
+
+
+
+async function createInitialFolder(id)
+{
+
+    const initialFolder = await prisma.folder.create({
+        data: {
+            ownerId: id
+        }
+    })
+}
+
+async function getUserFolders(id)
+{
+    let userFolders = await prisma.folder.findMany({
+        where: {
+            ownerId: id
+        }
+    })
+
+    return userFolders;
+}
+
+
+module.exports = { createUser, getUser, getUserById, getUserId, createInitialFolder, getUserFolders };
