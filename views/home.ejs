@@ -36,6 +36,15 @@
 
 }
 
+
+.container2{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+}
+
 .empty{
     display:flex;
     flex-direction: column;
@@ -57,8 +66,21 @@ form{
     border: transparent;
 
 }
+
+.container1 {
+    color: #2D3748;
+}
 .container1 label {
     border: none;
+    
+}
+
+.container2{
+    color: #2D3748;
+}
+
+li{
+    color: #2D3748;
 }
 
 
@@ -104,13 +126,21 @@ form{
 }
 
 
+.file{
+    display:grid;
+    grid-template-columns: 2fr 1fr 1fr 2fr;
+    gap: 1rem;
+
+
+}
+
 </style>
 <body>
-    <div class="container1">
 
 
 
         <% if (files.length === 0) { %>
+            <div class="container1">
 
 
             <div class="empty">
@@ -131,16 +161,24 @@ form{
             </div>
 
         </div>
+    </div>
 
         <% } else { %>
         
             <div class="container2">
             <p>You have the following files:</p>
-            <ul>
+            <div class="files">
                 <% files.forEach(function(file) { %>
-                    <li><%= file.name %> - <%= file.size %> bytes</li>
+                    <!-- <li><%= file.name %> - <%= file.size %> bytes</li> -->
+                     <div class="file">
+                        <p><%=file.name%></p>
+                        <p><%=file.extention%></p>
+                        <p><%=file.size%> MB</p>
+                        <p>Date</p>
+                     </div>
+
                 <% }); %>
-            </ul>
+                </div>
 
             <form action="/upload" method="post" enctype="multipart/form-data">
                 <label for="file-upload" class="custom-file-upload">
@@ -149,7 +187,9 @@ form{
                     </svg>
                 </label>
                 <input id="file-upload" type="file" name="file" />
-                <button type="submit">Submit</button>
+                <button class="upload-button" id="uploadButton" aria-label="Upload File">
+                    <span class="icon">📁</span> Upload
+                  </button>
             </form>
         </div>
         
