@@ -34,7 +34,7 @@ model file {
   id Int @id @default(autoincrement())
   name String
   size Int
-  extention FileExtension
+  extention String
   url String
   folder folder @relation(fields: [folderId], references: [id])
   folderId Int
@@ -50,38 +50,38 @@ model folder {
 
 }
 
-enum FileExtension {
-  // Documents
-  PDF
-  DOCX
-  XLSX
-  PPTX
-  TXT
+// enum FileExtension {
+//   // Documents
+//   PDF
+//   DOCX
+//   XLSX
+//   PPTX
+//   TXT
 
-  // Images
-  JPG
-  PNG
-  GIF
-  SVG
+//   // Images
+//   JPG
+//   PNG
+//   GIF
+//   SVG
 
-  // Videos
-  MP4
-  MKV
-  AVI
+//   // Videos
+//   MP4
+//   MKV
+//   AVI
 
-  // Audio
-  MP3
-  WAV
+//   // Audio
+//   MP3
+//   WAV
 
-  // Archives
-  ZIP
-  RAR
+//   // Archives
+//   ZIP
+//   RAR
 
-  // Code Files
-  HTML
-  CSS
-  JS
+//   // Code Files
+//   HTML
+//   CSS
+//   JS
 
-  // Miscellaneous
-  EXE
-}
+//   // Miscellaneous
+//   EXE
+// }

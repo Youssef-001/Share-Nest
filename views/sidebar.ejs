@@ -49,7 +49,7 @@
             <!-- Folders list rendered dynamically -->
             <ul>
                 <% folders.forEach(function(folder) { %>
-                    <a href="/?folder=<%=folder.id%>"><li><%= folder.name %></li></a>
+                    <li><a href="/?folder=<%= folder.id %>"><%= folder.name %></a></li>
                 <% }); %>
             </ul>
         </div>

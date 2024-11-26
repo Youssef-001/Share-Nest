@@ -80,5 +80,34 @@ async function GetFolderFiles(id)
     return folderFiles;
 }
 
+async function addFile(folderId, file)
+{
+    console.log("file", file);
 
-module.exports = { createUser, getUser, getUserById, getUserId, createInitialFolder, getUserFolders, GetFolderFiles};
+    let newFile = await prisma.file.create({
+        data: {
+            folderId: folderId,
+            size: file.size,
+            name: file.originalname,
+            url : file.path,
+            extention: file.mimetype
+
+        }
+    })
+
+    return newFile;
+}
+
+async function getUserFirstFolder(id)
+{
+    let folder = await prisma.folder.findFirst({
+        where: {
+            ownerId: id
+        }
+    })
+
+    return folder;
+}
+
+
+module.exports = { createUser, getUser, getUserById, getUserId, createInitialFolder, getUserFolders, GetFolderFiles,addFile, getUserFirstFolder};

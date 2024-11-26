@@ -23,12 +23,32 @@ function createUser(req,res,next)
 }
 
 async function renderAuthUser(req,res)
-{
+{ // TODO: get first folder for user and query it on default;
     let userId = req.session.passport.user;
         let userFolders = await db.getUserFolders(userId);
         console.log(userFolders)
-        let folderFiles = await db.GetFolderFiles(req.query.folder);
-        res.render("index", {authenticated: req.isAuthenticated(), folders: userFolders, files: folderFiles});
+
+
+        let currentFiles;
+
+        if (req.query.folder != undefined)
+        {
+            currentFiles = await db.GetFolderFiles(req.query.folder);
+        }
+        else {
+            currentFiles = await db.GetFolderFiles(userFolders[0].id);
+        }
+
+        // let defaultFolder = await db.getUserFirstFolder(userId);
+        // let currentFolders = [];
+        // if (req.query.folder == undefined)
+        //     currentFolders.push(defaultFolder);
+        // else 
+        // currentFolders.push(folderFiles);
+
+        console.log(currentFiles);
+
+        res.render("index", {authenticated: req.isAuthenticated(), folders: userFolders, files: currentFiles});
 
 }
 
