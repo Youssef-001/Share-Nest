@@ -206,21 +206,27 @@ main{
     padding-top: 120px; /* Space for the header */
     /* position:relative; */
     width: 100%;
-    gap: 6rem;
   
 
 }
 
 #search{
-    padding: 1rem;
+    /* padding: 1rem; */
     /* width: 80%; */
     justify-content: center;
     align-items: center;
-    border-radius: 12px;
-    border: 1px solid grey;
+    border-radius: 4px;
+    border: 1px solid #ffffff;
     width: 50vw;
     font-size: 1.3rem;
+    padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  margin-left: 1rem;
 
+}
+
+#search:focus{
+    border: 1px solid grey;
 }
 
 
@@ -383,6 +389,15 @@ button:disabled{
     /* cursor:pointer */
 }
 
+.search svg{
+    width: 2rem;
+    height: 2rem;;
+    /* position: absolute;
+    top: 5px;
+    left: -35px; */
+    margin-left: 5px;
+}
+
 #create-folder-form{
     margin-top: 1rem;
 }
@@ -425,7 +440,13 @@ button:disabled{
                 <div class="controls">
                     <div class="search">
                         <form action="/">
-                            <input type="search" placeholder="🔍 Search" name="search" id="search">
+
+                            <div style="display:flex; position:relative; background-color: #ffffff; justify-content: center; align-items: center;">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                                  </svg>                              
+                                <input type="search" placeholder="" name="search" id="search">
+                            </div>
                             
                         </form>
                     </div>
