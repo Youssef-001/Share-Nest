@@ -17,6 +17,10 @@
   display: none;
 }
 
+
+body{
+    font-family: Helvetica;
+}
 .container{
     margin-left: 3rem;
 
@@ -54,12 +58,12 @@
     /* align-items: center; */
 }
 
-form{
+/* form{
     display:flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-}
+} */
 
 .container1 svg {
     width: 12rem;
@@ -173,8 +177,8 @@ main{
 
 dialog {
 position: absolute;
-top: 40%;
-left: 50%;
+top: 35%;
+left: 40%;
 }
 
 
@@ -196,6 +200,84 @@ left: 50%;
     background-color: transparent;
 }
 
+dialog svg{
+    color:#a0c4ff;
+}
+
+dialog{
+    width: 30vw;
+    height: 30vh;
+    padding: 2rem;
+}
+
+
+.create-folder{
+    display:flex;
+    /* justify-content: center; */
+    align-items: center;
+    gap: 10px
+
+}
+
+.create-folder span {
+    font-size: 3rem;
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 0.8rem;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+.close svg{
+    color: black;
+}
+
+#input-folder{
+    padding: 8px;
+    font-size: 1.1rem;
+    border-radius: 6px;
+    border: 1px solid green;
+    width: 100%;
+}
+
+.dialog-controls{
+    display:flex;
+    gap: 1rem;
+    position:absolute;
+    bottom: 10px;
+    right: 10px;
+}
+
+.dialog-controls button {
+    padding: 10px 20px;    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.dialog-controls button[type='submit']
+{
+    background-color: #2C3E50;
+    color: white;
+}
+
+.dialog-controls button[type='submit']:hover{
+    background-color: #95A5A6;
+}
+
+button:disabled{
+    background-color: #d6d6d6; /* Light gray for disabled state */
+  color: #9c9c9c; /* Subdued text color */
+  cursor: not-allowed; /* Indicates unclickable state */
+  opacity: 0.6; /* Makes it visually less prominent */
+}
+
+#create-folder-form{
+    margin-top: 1rem;
+}
 
 </style>
 
@@ -263,8 +345,26 @@ left: 50%;
 
           <div>
             <dialog>
-                <button autofocus>Close</button>
-                <p>This modal dialog has a groovy backdrop!</p>
+                <button class="close" autofocus><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
+                  </svg>
+                  </button>
+                
+                <div class="create-folder">
+                    <span>📁</span>
+                    <p>Create folder</p>
+                </div>
+
+                <form id="create-folder-form" action="/create-folder">
+                    <label for="Name">Name</label>
+                    <input id="input-folder" type="text" placeholder="Folder name">
+
+                    <div class="dialog-controls">
+                        <button class="create-btn" type="submit" disabled>Create</button>
+                        <button  formmethod="dialog" type="button">Cancel</button>
+                    </div>
+                </form>
+
               </dialog>
               <button id="create-folder">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
@@ -317,4 +417,33 @@ closeButton.addEventListener("click", () => {
 });
 
   </script>
+
+
+<script>
+    let input = document.querySelector('#input-folder');
+    let createBtn = document.querySelector('.create-btn');
+    console.log(createBtn);
+    console.log(input);
+    input.addEventListener('input', (e) => {
+        console.log(input.value);
+        if (input.value == "")
+    {
+        createBtn.disabled=true;
+    }
+    else {
+        createBtn.disabled=false;
+    }
+    })
+</script>
+
+
+<script>
+    const cancelButton = document.querySelector('.dialog-controls button[type="button"]');
+let dialogu = document.querySelector('dialog');
+
+cancelButton.addEventListener('click', () => {
+    dialogu.close();
+});
+
+</script>
 </html>
