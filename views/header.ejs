@@ -24,19 +24,22 @@
             align-items: center;
             gap: 2rem;
             color: #FFFFFF;
-            font-size: 2rem;
-            font-weight: 500;
-            margin-left: 2rem
+            font-size: 1rem;
+            font-weight: 700;
+            margin-left: 7rem;
         }
 
         header{
             width: 100%;
-            background-color: #2D3748;
+            background-color: #fcfdfd;
             display:flex;
             flex:1;
+            color:black;
 
             position:fixed;
             top: 0;
+            border-bottom: 1px solid #e4e4e7;
+
 
         }
 
@@ -49,11 +52,16 @@
             color: white;
             border-radius: 50%;
         }
+
+
+        .controls{
+            color:black;
+        }
     </style>
 </head>
 <body>
     <header>
-        <div class="logo">
+        <div class="logo" style="color: black">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z" />
               </svg>
@@ -68,6 +76,10 @@
               </svg>
             </button>
           <% } else { %>
+            <div class="controls">
+                <a href="/login"><button>Login</button></a>
+                <a href="/sign-up"><button>Signup</button></a>
+            </div>
             <!-- Optionally, you can display something else here when not authenticated -->
           <% } %>
           
