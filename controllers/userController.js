@@ -39,6 +39,8 @@ async function renderAuthUser(req,res)
             currentFiles = await db.GetFolderFiles(userFolders[0].id);
         }
 
+    
+
         // let defaultFolder = await db.getUserFirstFolder(userId);
         // let currentFolders = [];
         // if (req.query.folder == undefined)
@@ -48,7 +50,7 @@ async function renderAuthUser(req,res)
 
         console.log(currentFiles);
 
-        res.render("index", {authenticated: req.isAuthenticated(), folders: userFolders, files: currentFiles});
+        res.render("index", {authenticated: req.isAuthenticated(), folders: userFolders, files: currentFiles, currentFolder: req.query.folder});
 
 }
 

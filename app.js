@@ -42,10 +42,13 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
-app.get("/", (req, res) => {
-  console.log(req.session);  // Check if the session is correctly populated
-  console.log(req.user);
-  console.log(req.passport)
+app.get("/", async(req, res) => {
+  console.log(req.query)
+  let firstFolder = await db.getUserFirstFolder(req.session.passport.user);
+  if (req.query.folder==undefined)
+  {
+    res.redirect(`/?folder=${firstFolder.id}`);
+  }
   if (req.isAuthenticated() == false)
     res.redirect('/login');
   else{
@@ -115,7 +118,7 @@ app.post(
   })
 );
 
-app.post('/upload', upload.single('file'), function (req, res, next) {
+app.post('/upload/:folder', upload.single('file'), function (req, res, next) {
   console.log(req.file);
   fileController.fileUpload(req,res,next);
 })

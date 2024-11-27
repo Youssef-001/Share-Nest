@@ -1,18 +1,13 @@
 const db = require("../database/queries");
 
 async function fileUpload(req, res, next) {
-  let folderId = req.query.folder;
+  let folderId = req.params.folder;
 
-  if (req.query.folder === undefined) {
-    folderId = await db.getUserFirstFolder(req.session.passport.user);
-    folderId = folderId.id;
-  } else {
-    folderId = req.query.folder;
-  }
+
   let file = await db.addFile(folderId, req.file);
 
   console.log(file);
-  res.redirect('/');
+  res.redirect(`/?folder=${folderId}`);
 }
 
 module.exports = { fileUpload };

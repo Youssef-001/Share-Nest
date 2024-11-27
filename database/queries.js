@@ -73,7 +73,7 @@ async function addFile(folderId, file) {
 
   let newFile = await prisma.file.create({
     data: {
-      folderId: folderId,
+      folderId: parseInt(folderId),
       size: file.size,
       name: file.originalname,
       url: file.path,
