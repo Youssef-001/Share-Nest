@@ -45,10 +45,12 @@ body{
 
 .container2{
     display: flex;
-    /* justify-content: center; */
-    align-items: center;
-    flex-direction: column;
 
+    flex-direction: column;
+    gap: 2rem;
+
+    grid-row: 3/-1;
+    grid-column: 1/-1;
 }
 
 .empty{
@@ -133,19 +135,48 @@ li{
 
 
 .file{
-    display:grid;
-    grid-template-columns: 2fr 1fr 1fr 2fr;
-    gap: 1rem;
+    display:flex;
+    /* grid-template-columns:  2fr 1fr 1fr 2fr;
+    gap: 3rem;
+    gap: 3rem 3rem; */
+
+    
+    grid-column: 1/-1;
+    gap: 2rem;
+    justify-content: space-between;
+    border-top: 1px solid #333333;
+    border-bottom: 1px solid #333333;
+    padding: 5px;
+    font-size: 16px;
+    align-content: center;
+    align-items: center;
+    
+
 
 
 }
 
+.files{
+    display:flex;
+    flex-direction: column;
+    gap: 1rem;
+    /* justify-content: center; */
+    /* align-content: space-around; */
+    
+
+}
 
 main{
     display:grid;
 
     grid-template-rows: auto auto 1fr;
     gap: 2rem;
+
+    margin-left: 250px; /* Same width as the sidebar */
+    padding: 20px;
+    padding-top: 120px; /* Space for the header */
+    /* position:relative; */
+    width: 100%
 
 }
 
@@ -302,7 +333,11 @@ button:disabled{
                 <% files.forEach(function(file) { %>
                     <!-- <li><%= file.name %> - <%= file.size %> bytes</li> -->
                      <div class="file">
-                        <p><%=file.name%></p>
+
+                        <div style="display:flex; gap: 3rem">
+                            <img style="width: 5rem;height: 3rem" src="<%=file.url.split('/')[1]%>" alt="">
+                            <p><%=file.name%></p>
+                        </div>
                         <p><%=file.extention%></p>
                         <p><%=file.size%> MB</p>
                         <p>Date</p>

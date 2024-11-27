@@ -1,5 +1,6 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
+const path = require('path')
 
 async function createUser(userData) {
   const user = await prisma.users.create({
@@ -70,14 +71,14 @@ async function GetFolderFiles(id) {
 
 async function addFile(folderId, file) {
   console.log("file", file);
-
+  const fileExtension = path.extname(file.originalname).toLowerCase();
   let newFile = await prisma.file.create({
     data: {
       folderId: parseInt(folderId),
       size: parseFloat(file.size),
       name: file.originalname,
       url: file.path,
-      extention: file.mimetype,
+      extention: fileExtension,
     },
   });
 

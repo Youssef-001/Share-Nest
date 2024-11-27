@@ -19,7 +19,7 @@ const userController = require('./controllers/userController')
 const folderController = require('./controllers/folderController')
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
-
+app.use(express.static('uploads'))
 app.use(
   expressSession({
     cookie: {

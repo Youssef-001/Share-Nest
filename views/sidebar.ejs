@@ -16,6 +16,13 @@
         font-size: 1.2rem;
         display:flex;
         justify-content: center;
+        position: fixed;
+    top: 13%; /* Push sidebar below the header */
+    left: 0;
+    width: 250px; /* Adjust sidebar width */
+    height: calc(100vh - 60px); /* Full height minus header */
+    background-color: #333;
+    overflow-y: auto; /* Allows scrolling inside the sidebar */
     }
 
     ul{
@@ -33,7 +40,7 @@
     }
 
     aside{
-        height: 100vh;
+        /* height: 100vh; */
     }
 
     *{
