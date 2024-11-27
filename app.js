@@ -16,6 +16,7 @@ const multer  = require('multer')
 const upload = multer({ dest: 'uploads/' })
 const fileController = require('./controllers/fileController')
 const userController = require('./controllers/userController')
+const folderController = require('./controllers/folderController')
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
@@ -117,6 +118,10 @@ app.post(
 app.post('/upload', upload.single('file'), function (req, res, next) {
   console.log(req.file);
   fileController.fileUpload(req,res,next);
+})
+
+app.post('/create-folder', (req,res) => {
+  folderController.createFolder(req,res);
 })
 
 

@@ -355,9 +355,9 @@ button:disabled{
                     <p>Create folder</p>
                 </div>
 
-                <form id="create-folder-form" action="/create-folder">
+                <form id="create-folder-form" method="POST" action="/create-folder">
                     <label for="Name">Name</label>
-                    <input id="input-folder" type="text" placeholder="Folder name">
+                    <input id="input-folder" type="text" placeholder="Folder name" name="folderName">
 
                     <div class="dialog-controls">
                         <button class="create-btn" type="submit" disabled>Create</button>
