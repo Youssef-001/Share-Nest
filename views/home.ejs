@@ -25,12 +25,27 @@ body{
 
 
 .custom-file-upload {
-  border: 1px solid #ccc;
   display: inline-block;
-  padding: 6px 12px;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  color: white;
+  background-color: #18181b; /* Customize color */
+  border: 1px solid #007bff;
+  border-radius: 4px;
   cursor: pointer;
-  padding-right: 4rem;
-  border: 1px solid teal;
+  text-align: center;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Hover effect for the label */
+.custom-file-upload:hover {
+  background-color: #333333;
+  color: #ffffff;
+}
+
+/* Hide the default file input */
+#file-upload {
+  display: none;
 }
 .container1{
     display: flex;
@@ -42,12 +57,23 @@ body{
 
 
 .container2{
-    display: flex;
+    /* display: flex; */
 
-    flex-direction: column;
-    gap: 2rem;
+    /* flex-direction: column;
+    gap: 2rem; */
+
+    display:grid;
+
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+    /* margin-right: 9rem; */
 
 
+}
+
+.folders{
+    grid-column: 1/-1;
+    grid-row: 2/-1;
 }
 
 
@@ -180,6 +206,7 @@ main{
     padding-top: 120px; /* Space for the header */
     /* position:relative; */
     width: 100%;
+    gap: 6rem;
   
 
 }
@@ -191,24 +218,28 @@ main{
     align-items: center;
     border-radius: 12px;
     border: 1px solid grey;
-    width: 70vw;
+    width: 50vw;
     font-size: 1.3rem;
 
 }
+
+
+
 .search{
     display:flex;
     justify-content: center;
     align-items: center;
-    margin-top: 2rem;
-    grid-row: 1/2;
+    /* margin-top: 2rem; */
+    /* grid-row: 1/2; */
 }
 
 .controls{
-    grid-row: 2/3;
+    /* grid-row: 2/3; */
     display:flex;
-    justify-content: center;
-    gap: 2rem
-}
+    justify-content: center;    
+    align-items: center;
+    margin-top: 2rem;
+    }
 
 nav{
     grid-column: 1/2;
@@ -232,6 +263,7 @@ nav{
     gap: 1rem;
     flex:1;
 
+    align-items: center;
 
 }
 
@@ -253,16 +285,18 @@ left: 40%;
 }
 
 #create-folder{
-    display:flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    padding:1rem 1rem;
-    padding-right: 3rem;
-    /* all:unset; */
-    cursor: pointer;
-    border: 1px solid grey;
-    background-color: transparent;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border-radius: 4px;
+    background-color: #ffffff;
+    color: black;
+    border: 1px solid #e4e4e7;
+
+
+}
+
+#create-folder:hover{
+    background-color: #e0e0e0;
 }
 
 dialog svg{
@@ -366,7 +400,10 @@ button:disabled{
                 
                 <% folders.forEach(function(folder) { %>
                     <div class="folder">
-                        <div>📁</div>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M15 13.5H9m4.06-7.19-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
+                          </svg>
+                          
                         <a href="/?folder=<%= folder.id %>"><%= folder.name %></a> 
     
                     </div>
@@ -383,12 +420,64 @@ button:disabled{
 
         
             <div class="container2">
-                <div class="search">
-                    <form action="/">
-                        <input type="search" placeholder="🔍 Search" name="search" id="search">
-                        
+               
+
+                <div class="controls">
+                    <div class="search">
+                        <form action="/">
+                            <input type="search" placeholder="🔍 Search" name="search" id="search">
+                            
+                        </form>
+                    </div>
+                    <form id="upload" action="/upload/<%=currentFolder%>" method="post" enctype="multipart/form-data">
+      
+                          <div style="display: flex; padding: 0.5rem;">
+                            <label for="file-upload" class="custom-file-upload">
+                              Upload
+                            </label>
+                            <input id="file-upload" type="file" name="file" />
+                          </div>
+                          
                     </form>
+            
+            
+            
+            
+                      <div>
+                        <dialog>
+                            <button class="close" autofocus><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
+                              </svg>
+                              </button>
+                            
+                            <div class="create-folder">
+                                <span>📁</span>
+                                <p>Create folder</p>
+                            </div>
+            
+                            <form id="create-folder-form" method="POST" action="/create-folder">
+                                <label for="Name">Name</label>
+                                <input id="input-folder" type="text" placeholder="Folder name" name="folderName">
+            
+                                <div class="dialog-controls">
+                                    <button class="create-btn" type="submit" disabled>Create</button>
+                                    <button  formmethod="dialog" type="button">Cancel</button>
+                                </div>
+                            </form>
+            
+                          </dialog>
+                          <button id="create-folder">
+                           
+                
+                                New Folder
+                              
+                          </button>
+                      </div>
+                      
+            
                 </div>
+
+                
             <div class="files">
                 <div class="file" style="border: none;"">
                     <p >Name</p>
@@ -419,68 +508,7 @@ button:disabled{
 
     </div>
 
-    <div class="controls">
-        <form id="upload" action="/upload/<%=currentFolder%>" method="post" enctype="multipart/form-data">
-
-        
-            <!-- <button class="upload-button" id="uploadButton" aria-label="Upload File">
-                <span class="icon">📁</span> Upload
-              </button> -->
-    
-              <div style="display:flex;">
-                <label for="file-upload" class="custom-file-upload">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" />
-                      </svg>
-                      
-                    <h3>Upload</h3>
-                </label>
-                <input id="file-upload" type="file" name="file" />
-    
-              </div>
-              
-        </form>
-
-
-
-
-          <div>
-            <dialog>
-                <button class="close" autofocus><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
-                  </svg>
-                  </button>
-                
-                <div class="create-folder">
-                    <span>📁</span>
-                    <p>Create folder</p>
-                </div>
-
-                <form id="create-folder-form" method="POST" action="/create-folder">
-                    <label for="Name">Name</label>
-                    <input id="input-folder" type="text" placeholder="Folder name" name="folderName">
-
-                    <div class="dialog-controls">
-                        <button class="create-btn" type="submit" disabled>Create</button>
-                        <button  formmethod="dialog" type="button">Cancel</button>
-                    </div>
-                </form>
-
-              </dialog>
-              <button id="create-folder">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 10.5v6m3-3H9m4.06-7.19-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
-                  </svg>
-    
-                  <div>
-                    Create folder
-                  </div>
-                  
-              </button>
-          </div>
-          
-
-    </div>
+   
 
    
 

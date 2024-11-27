@@ -43,15 +43,15 @@ app.use(passport.session());
 
 
 app.get("/", async(req, res) => {
-  console.log(req.query)
-  let firstFolder = await db.getUserFirstFolder(req.session.passport.user);
-  if (req.query.folder==undefined)
-  {
-    res.redirect(`/?folder=${firstFolder.id}`);
-  }
+
   if (req.isAuthenticated() == false)
     res.redirect('/login');
   else{
+    let firstFolder = await db.getUserFirstFolder(req.session.passport.user);
+    if (req.query.folder==undefined)
+    {
+      res.redirect(`/?folder=${firstFolder.id}`);
+    }
     userController.renderAuthUser(req,res);
   }
 });
@@ -145,4 +145,4 @@ app.get("/logout", (req, res, next) => {
   });
 });
 
-app.listen(3000, (req, res) => {});
+app.listen(3030, (req, res) => {});
