@@ -33,7 +33,7 @@ model users {
 model file {
   id Int @id @default(autoincrement())
   name String
-  size Int
+  size Float
   extention String
   url String
   folder folder @relation(fields: [folderId], references: [id])
