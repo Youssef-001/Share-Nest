@@ -20,11 +20,9 @@
 
 body{
     font-family: Helvetica;
+    box-sizing: border-box;
 }
-.container{
-    margin-left: 3rem;
 
-}
 
 .custom-file-upload {
   border: 1px solid #ccc;
@@ -49,9 +47,9 @@ body{
     flex-direction: column;
     gap: 2rem;
 
-    grid-row: 3/-1;
-    grid-column: 1/-1;
+
 }
+
 
 .empty{
     display:flex;
@@ -166,17 +164,23 @@ li{
 
 }
 
+
+a {
+  text-decoration: none; /* Removes underlining */
+  color: inherit; /* Inherits color from parent element, or you can set your own color */
+  outline: none; /* Removes the outline around the link when focused (use cautiously for accessibility) */
+}
+
 main{
     display:grid;
 
-    grid-template-rows: auto auto 1fr;
-    gap: 2rem;
+    grid-template-rows: auto  1fr;
+    grid-template-columns: 1fr 2fr  ;
 
-    margin-left: 250px; /* Same width as the sidebar */
-    padding: 20px;
     padding-top: 120px; /* Space for the header */
     /* position:relative; */
-    width: 100%
+    width: 100%;
+  
 
 }
 
@@ -204,6 +208,36 @@ main{
     display:flex;
     justify-content: center;
     gap: 2rem
+}
+
+nav{
+    grid-column: 1/2;
+    grid-row: 1/-1;
+    padding: 1rem;
+
+}
+
+.folders{
+    display:flex;
+    justify-content: center;
+    flex-direction: column;
+    /* align-items: center;  */
+    gap: 2rem;
+    margin-left: 10rem;
+}
+
+.folder{
+    display:flex;
+    /* flex-direction: column; */
+    gap: 1rem;
+    flex:1;
+
+
+}
+
+.folder:hover{
+    background-color: #95A5A6;
+
 }
 
 dialog {
@@ -326,17 +360,35 @@ button:disabled{
 
 
     <main>
-        <div class="search">
-            <form action="/">
-                <input type="search" placeholder="🔍 Search" name="search" id="search">
+        <nav>
+
+            <div class="folders">
                 
-            </form>
-        </div>
+                <% folders.forEach(function(folder) { %>
+                    <div class="folder">
+                        <div>📁</div>
+                        <a href="/?folder=<%= folder.id %>"><%= folder.name %></a> 
+    
+                    </div>
+                <% }); %>
+            </div>
+             
+            
+        </nav>
+
+
+     
 
     </div>
 
         
             <div class="container2">
+                <div class="search">
+                    <form action="/">
+                        <input type="search" placeholder="🔍 Search" name="search" id="search">
+                        
+                    </form>
+                </div>
             <div class="files">
                 <div class="file" style="border: none;"">
                     <p >Name</p>
