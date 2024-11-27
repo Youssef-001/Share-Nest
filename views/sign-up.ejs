@@ -3,100 +3,145 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <style>
-    body {
-      background-color: #E8F5E9;
-    }
+    <title>Login</title>
+    <style>
+      body {
+        background-color: #fdfefe;
+      }
 
-    .container{
+      .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+      }
+
+      .form-container{
         display:flex;
         justify-content: center;
         align-items: center;
-        margin-top: 3rem;
-    }
+      }
 
-    .form-div{
+      .form-div {
         font-size: 1.3rem;
         font-family: Helvetica;
-        width: 40vw;
-        height: 70vh;
-        background-color: #FFFFFF;
+        width: 25vw;
+        /* height: 60vh; */
+        background-color: #ffffff;
         padding: 3rem;
-        border-radius: 2rem
-    }
+        border-radius: 2rem;
+        border: 1px solid #e4e4e7;
+        margin-top: 2rem;
+        display:flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        
+      }
 
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 3rem;
-      font-color: #212121
-    }
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        justify-content: center;
+        align-content: center;
+      }
 
-    input{
+      input {
         width: 100%;
         padding: 12px;
         font-size: 1.3rem;
         border-radius: 8px;
         outline: none;
-        border-color: #e4e4e7;
         border: 2px solid grey;
-    }
+      }
 
-    input:focus{
-        border-color: blue
-    }
+      input:focus {
+        border-color: blue;
+      }
 
-    h1 {
+      h1 {
         text-align: center;
-    }
+      }
 
-    .submit{
+      .submit {
         padding: 1rem;
-        background-color: #388E3C;
+        background-color: #18181b;
         width: 100%;
         border-radius: 10px;
         font-size: 1.4rem;
-        
-        
-        
-    }
-  </style>
+        color: #ffffff;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transition */
+      }
+
+      .submit:hover {
+        background-color: #333333; /* Dark gray on hover */
+      /* Optional: Add a slight zoom effect on hover */      }
+
+      .form-container svg{
+        width: 3rem;
+        height: 3rem;
+      }
+
+      .logo{
+        display:flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+      }
+
+      p{
+        font-size: 1rem;
+        color: #787881
+      }
+    </style>
+  </head>
   <body>
     <header>
     </header>
-      <h1>Sign up</h1>
     <div class="container">
-
       <div class="form-container">
+        
         <div class="form-div">
+
+            <div class="logo">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z" />
+                  </svg>
+                <h2>Share Nest</h2>
+            </div>
+
+            <h3 style="text-align: center;">Create an account</h3>
+            <p>Enter your details to create your Share Nest account</p>
           <form action="/sign-up" method="POST">
             <div>
               <label for="username">Username</label>
-              <input type="text" name="username" />
+              <input type="text" name="username" id="username" required />
             </div>
-  
+
             <div>
               <label for="email">Email</label>
-              <input type="email" name="email" id="email" />
+              <input type="email" name="email" id="email" required />
             </div>
-  
+
             <div>
               <label for="password">Password</label>
-              <input type="password" name="password" />
+              <input type="password" name="password" id="password" required />
             </div>
-  
+
             <div>
-              <label for="confirmPassword">Confirm Password</label>
-              <input type="password" name="confirmPassword" />
+              <label for="confirmPassword">Password</label>
+              <input type="password" name="confirmPassword" id="confirmPassword" required />
             </div>
-  
+
+
             <button class="submit" type="submit">Sign up</button>
+            <div style="margin-left: 2rem; color: #777e8b">Already have an account? <a href="/login">Login</a></div>
           </form>
         </div>
       </div>
-    
     </div>
   </body>
 </html>
