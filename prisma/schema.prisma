@@ -38,6 +38,7 @@ model file {
   url String
   folder folder @relation(fields: [folderId], references: [id])
   folderId Int
+  Date DateTime @default(now())
 
 }
 
