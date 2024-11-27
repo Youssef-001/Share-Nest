@@ -115,6 +115,7 @@ app.post(
 );
 
 app.post('/upload', upload.single('file'), function (req, res, next) {
+  console.log(req.file);
   fileController.fileUpload(req,res,next);
 })
 
