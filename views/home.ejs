@@ -306,6 +306,14 @@ button:disabled{
   opacity: 0.6; /* Makes it visually less prominent */
 }
 
+.file:hover{
+    background-color: #bdc3c7;
+}
+
+.file{
+    transition: background-color 0.2s ease;
+}
+
 #create-folder-form{
     margin-top: 1rem;
 }
@@ -330,11 +338,17 @@ button:disabled{
             <div class="container2">
             <p>You have the following files:</p>
             <div class="files">
+                <div class="file" style="border: none;"">
+                    <p >Name</p>
+                    <p>Extention</p>
+                    <p>Size</p>
+                    <p>Date</p>
+                </div>
                 <% files.forEach(function(file) { %>
                     <!-- <li><%= file.name %> - <%= file.size %> bytes</li> -->
                      <div class="file">
 
-                        <div style="display:flex; gap: 3rem">
+                        <div style="display:flex; gap: 1rem; justify-content: center; align-items: center;">
                             <img style="width: 5rem;height: 3rem" src="<%=file.url.split('/')[1]%>" alt="">
                             <p><%=file.name%></p>
                         </div>
