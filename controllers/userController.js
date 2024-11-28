@@ -23,7 +23,7 @@ function createUser(req,res,next)
 }
 
 async function renderAuthUser(req,res)
-{ // TODO: get first folder for user and query it on default;
+{ 
     let userId = req.session.passport.user;
         let userFolders = await db.getUserFolders(userId);
         console.log(userFolders)
@@ -39,18 +39,6 @@ async function renderAuthUser(req,res)
             currentFiles = await db.GetFolderFiles(userFolders[0].id);
         }
 
-    
-
-        // let defaultFolder = await db.getUserFirstFolder(userId);
-        // let currentFolders = [];
-        // if (req.query.folder == undefined)
-        //     currentFolders.push(defaultFolder);
-        // else 
-        // currentFolders.push(folderFiles);
-
-
-
-
         for (let i = 0; i < currentFiles.length; i++)
         {
             let file = currentFiles[i];
@@ -65,30 +53,33 @@ async function renderAuthUser(req,res)
 
         console.log(currentFiles)
 
-        let previewObj = {};
+        let previewObj = {preview:false};
 
-        if (req.query.preview != undefined)
-        {
+        if (req.query.preview != undefined) {
             let file = await db.getFileById(parseInt(req.query.preview));
-            console.log(file);
             
-            if (file.extention.startsWith('text')){
-            fs.readFile(file.url, 'utf8', (err, data) => {
-                if (err) {
-                  console.error('Error reading the file:', err);
-                  return;
+            console.log(file);
+        
+            if (file.extention.startsWith('text')) {
+                try {
+                    const data = fs.readFileSync(file.url, 'utf8');
+                    
+                    console.log('File content:', data);
+                    
+                    file = { ...file, content: data };
+                    previewObj['file'] = file;
+                    previewObj['type'] = "text";
+                    previewObj['preview'] = true;
+        
+                    console.log(previewObj);
+                } catch (err) {
+                    console.error('Error reading the file:', err);
                 }
-                console.log('File content:', data);
-                file = {...file, content: data};
-                previewObj['file'] = file;
-                previewObj['type'] = "text";
-
-
-                console.log(previewObj)
-
-              });        }
             }
-        res.render("index", {authenticated: req.isAuthenticated(), folders: userFolders, files: currentFiles, currentFolder: req.query.folder});
+        }
+        
+        console.log(previewObj);
+        res.render("index", {authenticated: req.isAuthenticated(), folders: userFolders, files: currentFiles, currentFolder: req.query.folder, previewObj});
 
 }
 
