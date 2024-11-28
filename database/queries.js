@@ -78,7 +78,7 @@ async function addFile(folderId, file) {
       size: parseFloat(file.size),
       name: file.originalname,
       url: file.path,
-      extention: fileExtension,
+      extention: file.mimetype,
     },
   });
 

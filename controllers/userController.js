@@ -48,20 +48,18 @@ async function renderAuthUser(req,res)
         // else 
         // currentFolders.push(folderFiles);
 
-        console.log(currentFiles);
-        console.log((currentFiles[0].Date))
-        console.log(currentFiles[0].Date.getFullYear())
+
 
 
         for (let i = 0; i < currentFiles.length; i++)
         {
             let file = currentFiles[i];
-        //    let newDate = `${file.Date.getFullYear()}-${file.Date.getMonth()}-${file.Date.getDay()}`
         let newDate = String(file.Date);
         console.log(newDate.substring(0, 16))
         let date = newDate.substring(0,16);
         
-            currentFiles[i] = {...file, Date: date};
+            let newExtension = file.extention.split('.')[1];
+            currentFiles[i] = {...file,Date: date}
 
         }
 

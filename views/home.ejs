@@ -408,6 +408,10 @@ button:disabled{
     margin-top: 1rem;
 }
 
+i {
+    font-size: 3rem;
+}
+
 </style>
 
 
@@ -517,7 +521,18 @@ button:disabled{
                      <div class="file">
 
                         <div style="display:flex; gap: 1rem; ; align-items: center;">
-                            <img style="width: 5rem;height: 3rem" src="<%=file.url.split('/')[1]%>" alt="">
+                            <% if (file.extention.startsWith('image/')) { %>
+                                <img style="width: 5rem; height: 3rem;" src="<%= file.url.split('/')[1] %>" alt="Image preview">
+                            <% } else if (file.extention === 'application/pdf') { %>
+                                <i class="fa-regular fa-file-pdf" style="font-size: 3rem;"></i>
+                            <% } else if (file.extention === 'application/javascript' || file.extention.startsWith('text/') || ['application/json', 'text/html', 'text/css', 'text/x-c'].includes(file.extention)) { %>
+                                <i class="fa-solid fa-code" style="font-size: 3rem;"></i>
+                            <% } else { %>
+                                <i class="fa-solid fa-file" style="font-size: 3rem;"></i>
+                            <% } %>
+                            
+
+
                             <p><%=file.name%></p>
                         </div>
                         <p><%=file.extention%></p>
@@ -527,7 +542,7 @@ button:disabled{
 
                 <% }); %>
                 </div>
-
+                
            
         </div>
         
@@ -601,5 +616,9 @@ cancelButton.addEventListener('click', () => {
     dialogu.close();
 });
 
+
+
 </script>
+
+<script src="https://kit.fontawesome.com/714a2a5688.js" crossorigin="anonymous"></script>
 </html>
