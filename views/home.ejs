@@ -437,9 +437,19 @@ i {
 grid-column: 2/-1;
 grid-row: 1/-1;
 background-color: #18181b;
-padding: 2rem;
+overflow-y: auto
 }
 
+.file-info{
+    display:flex;
+    background-color: #242321;
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.file-content {
+    padding: 2rem;
+}
 
 </style>
 
@@ -480,16 +490,30 @@ padding: 2rem;
             <div class="container2">
 
 
-                <div id="file-preview"  style="color: red">
+                <div id="file-preview"  style="color: white; font-size: 1.1rem; font-family: Helvetica;">
                     <% if (previewObj.preview == true) { %>
-                        <p><%= previewObj.file.name %></p>
-                            <p>
-                                <%=previewObj.file.content%>
-                            </p>
 
-                            <button id="close-preview-btn" style="background-color: red; color: white; border: none; padding: 5px 10px; cursor: pointer;">
-                                Close Preview
+                        <div class="file-info">
+                            <button id="close-preview-btn" style="background-color: transparent; border: none; padding: 5px 10px; cursor: pointer;">
+                                <i  class="fa-solid fa-x" style="color: #ffffff; font-size: 1.2rem"></i>
                             </button>
+                            <div style="display:flex; flex-direction: row; gap: 1.2rem">
+                                <p><%=previewObj.file.name%></p>
+                                <p> <%=previewObj.file.extention%> | <%=previewObj.file.size%> MB</p>
+
+                            </div>
+
+
+                        </div>
+
+                            <div class="file-content">
+
+                                <p>
+                                    <%=previewObj.file.content%>
+                                </p>
+                            </div>
+
+                          
                        
                     <% } %>
                     
