@@ -1,6 +1,6 @@
 const bcrypt = require("bcryptjs");
 const db = require('../database/queries')
-
+const fs = require('fs');
 function createUser(req,res,next)
 {
     try {
@@ -65,6 +65,29 @@ async function renderAuthUser(req,res)
 
         console.log(currentFiles)
 
+        let previewObj = {};
+
+        if (req.query.preview != undefined)
+        {
+            let file = await db.getFileById(parseInt(req.query.preview));
+            console.log(file);
+            
+            if (file.extention.startsWith('text')){
+            fs.readFile(file.url, 'utf8', (err, data) => {
+                if (err) {
+                  console.error('Error reading the file:', err);
+                  return;
+                }
+                console.log('File content:', data);
+                file = {...file, content: data};
+                previewObj['file'] = file;
+                previewObj['type'] = "text";
+
+
+                console.log(previewObj)
+
+              });        }
+            }
         res.render("index", {authenticated: req.isAuthenticated(), folders: userFolders, files: currentFiles, currentFolder: req.query.folder});
 
 }

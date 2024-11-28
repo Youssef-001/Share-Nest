@@ -528,40 +528,39 @@ i {
             
                 </div>
 
+                <div class="files">
+                    <div class="file" style="border: none;">
+                        <p>Name</p>
+                        <p>Type</p>
+                        <p>Size</p>
+                        <p>Date</p>
+                    </div>
+                    <% files.forEach(function(file) { %>
+                        <!-- Wrap the file item with an <a> tag for linking -->
+                        <a href="javascript:void(0);" class="file-link" data-id="<%= file.id %>" style="all: unset; width: 100%; display: block; background: none; text-decoration: none;">
+                            <div id="<%= file.id %>" class="file">
+                    
+                                <div style="display: flex; gap: 1rem; align-items: center;">
+                                    <% if (file.extention.startsWith('image/')) { %>
+                                        <img style="width: 5rem; height: 3rem;" src="<%= file.url.split('/')[1] %>" alt="Image preview">
+                                    <% } else if (file.extention === 'application/pdf') { %>
+                                        <i class="fa-regular fa-file-pdf" style="font-size: 3rem;"></i>
+                                    <% } else if (file.extention === 'application/javascript' || file.extention.startsWith('text/') || ['application/json', 'text/html', 'text/css', 'text/x-c'].includes(file.extention)) { %>
+                                        <i class="fa-solid fa-code" style="font-size: 3rem;"></i>
+                                    <% } else { %>
+                                        <i class="fa-solid fa-file" style="font-size: 3rem;"></i>
+                                    <% } %>
+                    
+                                    <p><%= file.name %></p>
+                                </div>
+                                <p><%= file.extention %></p>
+                                <p><%= file.size %> MB</p>
+                                <p><%= file.Date %></p>
+                            </div>
+                        </a>
+                    <% }); %>
+                </div>
                 
-            <div class="files">
-                <div class="file" style="border: none;"">
-                    <p >Name</p>
-                    <p>Type</p>
-                    <p>Size</p>
-                    <p>Date</p>
-                </div>
-                <% files.forEach(function(file) { %>
-                    <!-- <li><%= file.name %> - <%= file.size %> bytes</li> -->
-                     <div class="file">
-
-                        <div style="display:flex; gap: 1rem; ; align-items: center;">
-                            <% if (file.extention.startsWith('image/')) { %>
-                                <img style="width: 5rem; height: 3rem;" src="<%= file.url.split('/')[1] %>" alt="Image preview">
-                            <% } else if (file.extention === 'application/pdf') { %>
-                                <i class="fa-regular fa-file-pdf" style="font-size: 3rem;"></i>
-                            <% } else if (file.extention === 'application/javascript' || file.extention.startsWith('text/') || ['application/json', 'text/html', 'text/css', 'text/x-c'].includes(file.extention)) { %>
-                                <i class="fa-solid fa-code" style="font-size: 3rem;"></i>
-                            <% } else { %>
-                                <i class="fa-solid fa-file" style="font-size: 3rem;"></i>
-                            <% } %>
-                            
-
-
-                            <p><%=file.name%></p>
-                        </div>
-                        <p><%=file.extention%></p>
-                        <p><%=file.size%> MB</p>
-                        <p><%=file.Date%></p>
-                     </div>
-
-                <% }); %>
-                </div>
                 
            
         </div>
@@ -641,4 +640,22 @@ cancelButton.addEventListener('click', () => {
 </script>
 
 <script src="https://kit.fontawesome.com/714a2a5688.js" crossorigin="anonymous"></script>
+
+
+
+<script>
+    // JavaScript to dynamically append 'preview' query parameter to the URL
+    document.querySelectorAll('.file-link').forEach(link => {
+        link.addEventListener('click', function() {
+            const fileId = this.getAttribute('data-id');
+            const currentUrl = window.location.href;
+            const newUrl = new URL(currentUrl);
+            newUrl.searchParams.set('preview', fileId); // Append 'preview' query parameter with file.id
+            
+            // Redirect to the new URL with the 'preview' query
+            window.location.href = newUrl.toString();
+        });
+    });
+</script>
+
 </html>

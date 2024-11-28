@@ -106,6 +106,17 @@ async function createFolder(userId, folderName) {
   return folder;
 }
 
+async function getFileById(id)
+{
+    let file = await prisma.file.findUnique({
+        where: {
+            id: id
+        }
+    })
+
+    return file;
+}
+
 module.exports = {
   createUser,
   getUser,
@@ -116,5 +127,5 @@ module.exports = {
   GetFolderFiles,
   addFile,
   getUserFirstFolder,
-  createFolder,
+  createFolder,getFileById
 };
