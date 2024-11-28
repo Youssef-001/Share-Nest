@@ -79,6 +79,8 @@ async function renderAuthUser(req,res)
         }
         
         console.log(previewObj);
+        let newContent = previewObj.file.content.replaceAll('\n', '<br>')
+        previewObj.file = {...previewObj.file, content:newContent};
         res.render("index", {authenticated: req.isAuthenticated(), folders: userFolders, files: currentFiles, currentFolder: req.query.folder, previewObj});
 
 }

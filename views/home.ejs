@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-
+<link href="https://fonts.googleapis.com/css2?family=Liberation+Mono&display=swap" rel="stylesheet">
 <style>
     svg{
         width: 3rem;
@@ -172,19 +172,15 @@ li{
 .file{
     display:grid;
      grid-template-columns:  2fr 1fr 1fr 1fr;
-     
-    /*gap: 3rem;
-    gap: 3rem 3rem; */
+
 
     
     grid-column: 1/-1;
-    /* justify-content: space-between; */
-    /* border-top: 1px solid #333333; */
+
     border-bottom: 1px solid #e4e4e7;
     padding: 15px;
     font-size: 16px;
-    /* align-content: center;
-    align-items: center; */
+    cursor: pointer;
     
     
 
@@ -437,7 +433,8 @@ i {
 grid-column: 2/-1;
 grid-row: 1/-1;
 background-color: #18181b;
-overflow-y: auto
+overflow-y: auto;
+
 }
 
 .file-info{
@@ -449,6 +446,9 @@ overflow-y: auto
 
 .file-content {
     padding: 2rem;
+    /* word-wrap: break-word; */
+/* white-space: pre-wrap; */
+font-family: 'Liberation Mono', monospace;
 }
 
 </style>
@@ -509,7 +509,7 @@ overflow-y: auto
                             <div class="file-content">
 
                                 <p>
-                                    <%=previewObj.file.content%>
+                                    <%- previewObj.file.content %>
                                 </p>
                             </div>
 
