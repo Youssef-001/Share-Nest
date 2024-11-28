@@ -66,6 +66,8 @@ body{
 
     grid-template-columns: 1fr;
     grid-template-rows: auto 1fr;
+    margin-right: 10rem;
+
     /* margin-right: 9rem; */
 
 
@@ -114,6 +116,7 @@ dialog svg{
 
 .container2{
     color: #2D3748;
+
 }
 
 li{
@@ -166,6 +169,7 @@ li{
 .file{
     display:grid;
      grid-template-columns:  2fr 1fr 1fr 1fr;
+     
     /*gap: 3rem;
     gap: 3rem 3rem; */
 
@@ -210,7 +214,7 @@ main{
     display:grid;
 
     grid-template-rows: auto  1fr;
-    grid-template-columns: 1fr 2fr  ;
+    grid-template-columns: auto 1fr  ;
 
     padding-top: 120px; /* Space for the header */
     /* position:relative; */
@@ -238,6 +242,11 @@ main{
     border: 1px solid grey;
 }
 
+nav{
+    margin:0;
+    padding:0;
+}
+
 
 
 .search{
@@ -254,12 +263,14 @@ main{
     justify-content: center;    
     align-items: center;
     margin-top: 2rem;
+    flex-wrap: wrap;
     }
 
 nav{
     grid-column: 1/2;
     grid-row: 1/-1;
-    padding: 1rem;
+    /* padding: 2rem; */
+    margin-right: 8rem;
 
 }
 
@@ -269,7 +280,7 @@ nav{
     flex-direction: column;
     /* align-items: center;  */
     gap: 2rem;
-    margin-left: 10rem;
+    margin-left: 4rem;
     margin-top: 1rem;
 
 }
@@ -471,6 +482,7 @@ i {
       
                           <div style="display: flex; padding: 0.5rem;">
                             <label for="file-upload" class="custom-file-upload">
+                                <i style="font-size: 1rem" class="fa-solid fa-upload" style="color: #ffffff;"></i>
                               Upload
                             </label>
                             <input id="file-upload" type="file" name="file" />
@@ -489,6 +501,7 @@ i {
                               </button>
                             
                             <div class="create-folder">
+
                                 <p style="font-weight: 600">New folder</p>
                                 <p style="color: #74747d">Enter a name for your new folder.</p>
                             </div>
@@ -506,7 +519,7 @@ i {
                           </dialog>
                           <button id="create-folder">
                            
-                
+                            <i style="font-size: 1rem; margin-right: 5px" class="fa-regular fa-folder"></i>
                                 New Folder
                               
                           </button>
