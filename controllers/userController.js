@@ -78,6 +78,14 @@ async function renderAuthUser(req,res)
                 let newContent = previewObj.file.content.replaceAll('\n', '<br>')
                 previewObj.file = {...previewObj.file, content:newContent};
             }
+
+            else if (file.extention.startsWith('image'))
+            {
+                const image = fs.readFileSync(file.url);
+                previewObj['preview'] = true;
+                previewObj['type'] = "image";
+                previewObj['file'] = file;
+            }
         }
         
 
