@@ -99,6 +99,11 @@ body{
 
 }
 
+dialog svg{
+    width: 2rem;
+    height: 2rem;
+}
+
 .container1 {
     color: #2D3748;
 }
@@ -284,12 +289,14 @@ nav{
 
 }
 
-dialog {
-position: absolute;
-top: 35%;
-left: 40%;
-}
-
+.dialog {
+      top: 50%;
+      left: 50%;
+      -webkit-transform: translateX(-50%) translateY(-50%);
+      -moz-transform: translateX(-50%) translateY(-50%);
+      -ms-transform: translateX(-50%) translateY(-50%);
+      transform: translateX(-50%) translateY(-50%);
+    }
 
 
 #search:focus{
@@ -323,15 +330,15 @@ dialog{
 
 
 .create-folder{
-    display:flex;
+    /* display:flex; */
     /* justify-content: center; */
     align-items: center;
     gap: 10px
 
 }
 
-.create-folder span {
-    font-size: 3rem;
+.create-folder  {
+    font-size: 1.2rem;
 }
 
 .close {
@@ -482,13 +489,13 @@ i {
                               </button>
                             
                             <div class="create-folder">
-                                <span>📁</span>
-                                <p>Create folder</p>
+                                <p style="font-weight: 600">New folder</p>
+                                <p style="color: #74747d">Enter a name for your new folder.</p>
                             </div>
             
                             <form id="create-folder-form" method="POST" action="/create-folder">
-                                <label for="Name">Name</label>
-                                <input id="input-folder" type="text" placeholder="Folder name" name="folderName">
+                                <label style="font-weight: 600" for="Name">Folder name</label>
+                                <input id="input-folder" type="text" placeholder="My folder" name="folderName">
             
                                 <div class="dialog-controls">
                                     <button class="create-btn" type="submit" disabled>Create</button>
