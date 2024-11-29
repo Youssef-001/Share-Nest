@@ -38,38 +38,38 @@ app.set("view engine", "ejs");
 
 // app.use(express.static('uploads'))
 
-app.get('/folder/file/:fileId', async(req, res) => {
-  const { fileId } = req.params;
-  let file = await db.getFileById(parseInt(fileId));
-  let fileName = file.url.split('/')[1];
+// app.get('/folder/file/:fileId', async(req, res) => {// TODO: WHY FOLDER/FILE:ID ACCESSED ON PDF PREVIEWS
+//   const { fileId } = req.params;
+//   let file = await db.getFileById(parseInt(fileId));
+//   let fileName = file.url.split('/')[1];
 
-  const filePath = path.join(__dirname, 'uploads', fileName);
-  let fileExtension = file.extention;
-
-
-  if (fileExtension === 'application/octet-stream' || fileExtension == 'application/pdf') {
-    res.set({
-      'Content-Type': 'application/pdf',
-      'Content-Disposition': `inline; filename="${fileName}"`, // or 'attachment;' to force download
-    });
-  }
-
-  // Check if file exists
-  fs.access(filePath, fs.constants.F_OK, async(err) => {
-    if (err) {
-      return res.status(404).send('File not found');
-    }
-
-    // Serve the file
-    if (file.extention == "application/octet-stream")
-    {
-      console.log("SPYYYYY");
-    }
+//   const filePath = path.join(__dirname, 'uploads', fileName);
+//   let fileExtension = file.extention;
 
 
-    res.sendFile(filePath);
-  });
-});
+//   if (fileExtension === 'application/octet-stream' || fileExtension == 'application/pdf') {
+//     res.set({
+//       'Content-Type': 'application/pdf',
+//       'Content-Disposition': `inline; filename="${file.name}"`, // or 'attachment;' to force download
+//     });
+//   }
+
+//   // Check if file exists
+//   fs.access(filePath, fs.constants.F_OK, async(err) => {
+//     if (err) {
+//       return res.status(404).send('File not found');
+//     }
+
+//     // Serve the file
+//     if (file.extention == "application/octet-stream")
+//     {
+//       console.log("SPYYYYY");
+//     }
+
+
+//     res.sendFile(file.url);
+//   });
+// });
 
 
 

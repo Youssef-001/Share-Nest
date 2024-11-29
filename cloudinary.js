@@ -21,7 +21,10 @@ async function uploadFile(file) {
             let cld_upload_stream = cloudinary.uploader.upload_stream(
                 {
                     folder: "foo", // Folder in Cloudinary where the image will be uploaded
-                    resource_type: 'auto'  // Detect the resource type automatically (e.g., image, video)
+                    resource_type: 'auto' , // Detect the resource type automatically (e.g., image, video)
+                    // fetch_format: "auto",
+                    quality: "auto:best",
+
                 },
                 function(error, result) {
                     if (error) {

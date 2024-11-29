@@ -1,5 +1,6 @@
 const bcrypt = require("bcryptjs");
 const db = require('../database/queries')
+const axios = require('axios');
 const fs = require('fs');
 function createUser(req,res,next)
 {
@@ -24,53 +25,63 @@ function createUser(req,res,next)
 
 
 
-async function handlePreview(req)
-{
-    let previewObj = {preview:false};
+async function handlePreview(req,res) {
+    let previewObj = { preview: false };
 
     if (req.query.preview != undefined) {
-        let file = await db.getFileById(parseInt(req.query.preview));
-        
-        console.log(file);
-    
-        if (file.extention.startsWith('text')) {
-            try {
-                const data = fs.readFileSync(file.url, 'utf8');
-                
-                console.log('File content:', data);
-                
-                file = { ...file, content: data };
-                previewObj['file'] = file;
-                previewObj['type'] = "text";
-                previewObj['preview'] = true;
-    
-                console.log(previewObj);
-            } catch (err) {
-                console.error('Error reading the file:', err);
+        try {
+            // Fetch the file from the database
+            let file = await db.getFileById(parseInt(req.query.preview));
+
+            // Fetch file content from Cloudinary
+            const response = await axios.get(file.url, { responseType: 'arraybuffer' });
+            const fileData = Buffer.from(response.data, 'binary');
+            if (file.extention.startsWith('application')) // this was cause of problem
+            {
+                // res.setHeader('Content-Type', 'application/pdf');
             }
-            let newContent = previewObj.file.content.replaceAll('\n', '<br>')
-            previewObj.file = {...previewObj.file, content:newContent};
-        }
 
-        else if (file.extention.startsWith('image'))
-        {
-            const image = fs.readFileSync(file.url);
-            previewObj['preview'] = true;
-            previewObj['type'] = "image";
-            previewObj['file'] = file;
-        }
+            // Handle text files
+            if (file.extention.startsWith('text')) {
+                try {
+                    const content = fileData.toString('utf8'); // Convert binary data to string
+                    console.log('File content:', content);
 
-        else if (file.extention.split('/')[1] == 'pdf')
-        {
-            previewObj['preview'] = true;
-            previewObj['file'] = file;
-            previewObj['type'] = "pdf";
+                    let formattedContent = content.replaceAll('\n', '<br>'); // Format for HTML preview
+                    previewObj = {
+                        preview: true,
+                        type: "text",
+                        file: { ...file, content: formattedContent }
+                    };
+                } catch (err) {
+                    console.error('Error processing text content:', err);
+                }
+            }
+
+            // Handle image files
+            else if (file.extention.startsWith('image')) {
+                previewObj = {
+                    preview: true,
+                    type: "image",
+                    file
+                };
+            }
+
+            // Handle PDF files
+            else if (file.extention.split('/')[1] === 'pdf') {
+                previewObj = {
+                    preview: true,
+                    type: "pdf",
+                    file
+                };
+            }
+        } catch (error) {
+            console.error('Error fetching or processing file:', error);
         }
     }
 
     return previewObj;
 }
-
 
 
 function handleSearchQuery(query, currentFiles)
@@ -121,7 +132,7 @@ async function renderAuthUser(req,res)
 
         }
         console.log(currentFiles)
-        let previewObj = await handlePreview(req);
+        let previewObj = await handlePreview(req,res);
 
         if (req.query.search != undefined)
         {

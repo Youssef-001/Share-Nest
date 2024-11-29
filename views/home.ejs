@@ -190,12 +190,11 @@ li{
 
 .files{
 
-    /* justify-content: center; */
-    /* align-content: space-around; */
     background-color: #ffffff;
     border: 1px solid #e4e4e7;
     margin-top: 1rem;
     border-radius: 4px;
+    margin-right: 2rem;
 
     
 
@@ -215,8 +214,7 @@ main{
     grid-template-rows: auto  1fr;
     grid-template-columns: auto 1fr  ;
 
-    padding-top: 120px; /* Space for the header */
-    /* position:relative; */
+    padding-top: 120px;
     width: 100vw;
     height: 100vh;
   
@@ -538,7 +536,7 @@ iframe{
                                 %>
 
                                 <img style="width: 100%; position:fixeed;
-  height: 100%;" src="file/<%=previewObj.file.id%>" alt="">
+  height: 100%;" src="<%=previewObj.file.url%>" alt="">
 
 
 
@@ -550,10 +548,10 @@ iframe{
                                 
                                 
                                 %>
-
+<!--                                 src="https://res.cloudinary.com/dgy6jnjf0/image/upload/v1732880674/foo/ybfbbxlcrijlkwezr4ps.pdf" 
+ -->
                                 <iframe 
-                                src="file/<%=previewObj.file.id%>" 
-
+                                    src="<%=previewObj.file.url%>"
                                 style="border: none;">
                               </iframe>
 
@@ -648,7 +646,7 @@ iframe{
                     
                                 <div style="display: flex; gap: 1rem; align-items: center;">
                                     <% if (file.extention.startsWith('image/')) { %>
-                                        <img style="width: 5rem; height: 3rem;" src="file/<%= file.id %>" alt="Image preview">
+                                        <img style="width: 5rem; height: 3rem;" src="<%= file.url %>" alt="Image preview">
                                     <% } else if (file.extention === 'application/pdf') { %>
                                         <i class="fa-regular fa-file-pdf" style="font-size: 3rem;"></i>
                                     <% } else if (file.extention === 'application/javascript' || file.extention.startsWith('text/') || ['application/json', 'text/html', 'text/css', 'text/x-c'].includes(file.extention)) { %>
