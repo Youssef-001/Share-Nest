@@ -38,7 +38,7 @@ app.set("view engine", "ejs");
 
 // app.use(express.static('uploads'))
 
-app.get('/file/:fileId', async(req, res) => {
+app.get('/folder/file/:fileId', async(req, res) => {
   const { fileId } = req.params;
   let file = await db.getFileById(parseInt(fileId));
   let fileName = file.url.split('/')[1];
@@ -105,7 +105,7 @@ app.get("/", async(req, res) => {
     {
       res.redirect(`/?folder=${firstFolder.id}`);
     }
-    userController.renderAuthUser(req,res);
+      userController.renderAuthUser(req,res);
   }
 });
 
@@ -180,6 +180,12 @@ app.post('/upload/:folder', upload.single('file'), function (req, res, next) {
     req.file.mimetype = "application/pdf";
   }
   fileController.fileUpload(req,res,next);
+})
+
+
+app.get('/folder/:folderId', (req,res) => {
+  //
+  userController.renderAuthUser(req,res);
 })
 
 app.get('/download/:fileId', async (req, res) => {

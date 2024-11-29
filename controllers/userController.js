@@ -22,6 +22,56 @@ function createUser(req,res,next)
       }
 }
 
+
+
+async function handlePreview(req)
+{
+    let previewObj = {preview:false};
+
+    if (req.query.preview != undefined) {
+        let file = await db.getFileById(parseInt(req.query.preview));
+        
+        console.log(file);
+    
+        if (file.extention.startsWith('text')) {
+            try {
+                const data = fs.readFileSync(file.url, 'utf8');
+                
+                console.log('File content:', data);
+                
+                file = { ...file, content: data };
+                previewObj['file'] = file;
+                previewObj['type'] = "text";
+                previewObj['preview'] = true;
+    
+                console.log(previewObj);
+            } catch (err) {
+                console.error('Error reading the file:', err);
+            }
+            let newContent = previewObj.file.content.replaceAll('\n', '<br>')
+            previewObj.file = {...previewObj.file, content:newContent};
+        }
+
+        else if (file.extention.startsWith('image'))
+        {
+            const image = fs.readFileSync(file.url);
+            previewObj['preview'] = true;
+            previewObj['type'] = "image";
+            previewObj['file'] = file;
+        }
+
+        else if (file.extention.split('/')[1] == 'pdf')
+        {
+            previewObj['preview'] = true;
+            previewObj['file'] = file;
+            previewObj['type'] = "pdf";
+        }
+    }
+
+    return previewObj;
+}
+
+
 async function renderAuthUser(req,res)
 { 
     let userId = req.session.passport.user;
@@ -31,9 +81,9 @@ async function renderAuthUser(req,res)
 
         let currentFiles;
 
-        if (req.query.folder != undefined)
+        if (req.params.folderId != undefined)
         {
-            currentFiles = await db.GetFolderFiles(req.query.folder);
+            currentFiles = await db.GetFolderFiles(req.params.folderId);
         }
         else {
             currentFiles = await db.GetFolderFiles(userFolders[0].id);
@@ -53,52 +103,13 @@ async function renderAuthUser(req,res)
 
         console.log(currentFiles)
 
-        let previewObj = {preview:false};
 
-        if (req.query.preview != undefined) {
-            let file = await db.getFileById(parseInt(req.query.preview));
-            
-            console.log(file);
-        
-            if (file.extention.startsWith('text')) {
-                try {
-                    const data = fs.readFileSync(file.url, 'utf8');
-                    
-                    console.log('File content:', data);
-                    
-                    file = { ...file, content: data };
-                    previewObj['file'] = file;
-                    previewObj['type'] = "text";
-                    previewObj['preview'] = true;
-        
-                    console.log(previewObj);
-                } catch (err) {
-                    console.error('Error reading the file:', err);
-                }
-                let newContent = previewObj.file.content.replaceAll('\n', '<br>')
-                previewObj.file = {...previewObj.file, content:newContent};
-            }
+        let previewObj = await handlePreview(req);
 
-            else if (file.extention.startsWith('image'))
-            {
-                const image = fs.readFileSync(file.url);
-                previewObj['preview'] = true;
-                previewObj['type'] = "image";
-                previewObj['file'] = file;
-            }
-
-            else if (file.extention.split('/')[1] == 'pdf')
-            {
-                previewObj['preview'] = true;
-                previewObj['file'] = file;
-                previewObj['type'] = "pdf";
-            }
-        }
-        
-
-        res.render("index", {authenticated: req.isAuthenticated(), folders: userFolders, files: currentFiles, currentFolder: req.query.folder, previewObj});
+        res.render("index", {authenticated: req.isAuthenticated(), folders: userFolders, files: currentFiles, currentFolder: req.params.folderId, previewObj});
 
 }
+
 
 
 module.exports = {createUser,renderAuthUser}
