@@ -72,6 +72,26 @@ async function handlePreview(req)
 }
 
 
+
+function handleSearchQuery(query, currentFiles)
+{
+    let searchFiles = [];
+        if (query != undefined)
+        {
+            for (let i = 0; i < currentFiles.length; i++)
+            {
+                if ((currentFiles[i].name.toLocaleLowerCase().startsWith(query.toLocaleLowerCase())))
+                {   
+                    searchFiles.push(currentFiles[i])
+                    
+                }
+            }
+        }
+
+        return searchFiles
+}
+
+
 async function renderAuthUser(req,res)
 { 
     let userId = req.session.passport.user;
@@ -100,11 +120,14 @@ async function renderAuthUser(req,res)
             currentFiles[i] = {...file,Date: date}
 
         }
-
         console.log(currentFiles)
-
-
         let previewObj = await handlePreview(req);
+
+        if (req.query.search != undefined)
+        {
+
+            currentFiles = handleSearchQuery(req.query.search, currentFiles);
+        }
 
         res.render("index", {authenticated: req.isAuthenticated(), folders: userFolders, files: currentFiles, currentFolder: req.params.folderId, previewObj});
 

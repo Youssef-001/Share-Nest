@@ -101,10 +101,8 @@ app.get("/", async(req, res) => {
     res.redirect('/login');
   else{
     let firstFolder = await db.getUserFirstFolder(req.session.passport.user);
-    if (req.query.folder==undefined)
-    {
-      res.redirect(`/?folder=${firstFolder.id}`);
-    }
+    res.redirect(`/folder/${firstFolder.id}`)
+
       userController.renderAuthUser(req,res);
   }
 });
@@ -187,6 +185,8 @@ app.get('/folder/:folderId', (req,res) => {
   //
   userController.renderAuthUser(req,res);
 })
+
+
 
 app.get('/download/:fileId', async (req, res) => {
   try {

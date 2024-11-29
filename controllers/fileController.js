@@ -15,7 +15,7 @@ async function fileUpload(req, res, next) {
   let file = await db.addFile(folderId, req.file);
 
   console.log(file);
-  res.redirect(`/?folder=${folderId}`);
+  res.redirect(`/folder/${folderId}`);
 }
 
 module.exports = { fileUpload };
