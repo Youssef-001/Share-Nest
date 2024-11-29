@@ -117,6 +117,7 @@ async function getFileById(id)
     return file;
 }
 
+
 module.exports = {
   createUser,
   getUser,
@@ -127,5 +128,5 @@ module.exports = {
   GetFolderFiles,
   addFile,
   getUserFirstFolder,
-  createFolder,getFileById
+  createFolder,getFileById,
 };

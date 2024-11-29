@@ -86,6 +86,13 @@ async function renderAuthUser(req,res)
                 previewObj['type'] = "image";
                 previewObj['file'] = file;
             }
+
+            else if (file.extention.split('/')[1] == 'pdf')
+            {
+                previewObj['preview'] = true;
+                previewObj['file'] = file;
+                previewObj['type'] = "pdf";
+            }
         }
         
 

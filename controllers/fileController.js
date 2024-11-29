@@ -3,6 +3,8 @@ const db = require("../database/queries");
 async function fileUpload(req, res, next) {
   let folderId = req.params.folder;
 
+
+
   let fileSize = parseFloat(req.file.size);
   fileSize/=1024;
   fileSize/=1024;

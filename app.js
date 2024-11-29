@@ -17,9 +17,61 @@ const upload = multer({ dest: 'uploads/' })
 const fileController = require('./controllers/fileController')
 const userController = require('./controllers/userController')
 const folderController = require('./controllers/folderController')
+const fs = require('fs');
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
-app.use(express.static('uploads'))
+
+
+
+// app.use('/uploads/:id', (req, res, next) => {
+//   const fileExtension = path.extname(req.path);
+
+//   // Check if the requested file is a PDF
+//   if (fileExtension === '.pdf') {
+//     res.setHeader('Content-Type', 'application/pdf');
+//     res.setHeader('Content-Disposition', 'inline'); // Ensure inline viewing
+//   }
+
+//   next(); // Pass the request to the static middleware
+// });
+
+// app.use(express.static('uploads'))
+
+app.get('/file/:fileId', async(req, res) => {
+  const { fileId } = req.params;
+  let file = await db.getFileById(parseInt(fileId));
+  let fileName = file.url.split('/')[1];
+
+  const filePath = path.join(__dirname, 'uploads', fileName);
+  let fileExtension = file.extention;
+
+
+  if (fileExtension === 'application/octet-stream' || fileExtension == 'application/pdf') {
+    res.set({
+      'Content-Type': 'application/pdf',
+      'Content-Disposition': `inline; filename="${fileName}"`, // or 'attachment;' to force download
+    });
+  }
+
+  // Check if file exists
+  fs.access(filePath, fs.constants.F_OK, async(err) => {
+    if (err) {
+      return res.status(404).send('File not found');
+    }
+
+    // Serve the file
+    if (file.extention == "application/octet-stream")
+    {
+      console.log("SPYYYYY");
+    }
+
+
+    res.sendFile(filePath);
+  });
+});
+
+
+
 app.use(
   expressSession({
     cookie: {
@@ -118,10 +170,20 @@ app.post(
   })
 );
 
+
+
 app.post('/upload/:folder', upload.single('file'), function (req, res, next) {
   console.log(req.file);
+  if (req.file.mimetype == "application/octet-stream") 
+  {
+    req.file.mimetype = "application/pdf";
+  }
   fileController.fileUpload(req,res,next);
 })
+
+
+
+
 
 app.post('/create-folder', (req,res) => {
   folderController.createFolder(req,res);
@@ -136,6 +198,7 @@ app.use((req, res, next) => {
 });
 
 
+
 app.get("/logout", (req, res, next) => {
   req.logout((err) => {
     if (err) {
@@ -145,4 +208,4 @@ app.get("/logout", (req, res, next) => {
   });
 });
 
-app.listen(3003, (req, res) => {});
+app.listen(3005, (req, res) => {});
