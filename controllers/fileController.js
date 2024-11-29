@@ -1,4 +1,5 @@
 const db = require("../database/queries");
+const cloud = require('../cloudinary');
 
 async function fileUpload(req, res, next) {
   let folderId = req.params.folder;
@@ -11,7 +12,13 @@ async function fileUpload(req, res, next) {
 
   fileSize = (fileSize).toFixed(2);
 
-  req.file = {...req.file, size: fileSize}
+  let cloudPath = await cloud.uploadFile(req.file.buffer);
+
+
+
+  // req.file = {...file, path: cloudPath};
+
+  req.file = {...req.file, size: fileSize, path: cloudPath}
   let file = await db.addFile(folderId, req.file);
 
   console.log(file);

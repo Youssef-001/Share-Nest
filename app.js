@@ -13,7 +13,7 @@ const db = require("./database/queries");
 app.use(express.urlencoded({ extended: false }));
 const prisma = new PrismaClient();
 const multer  = require('multer')
-const upload = multer({ dest: 'uploads/' })
+const upload = multer()
 const fileController = require('./controllers/fileController')
 const userController = require('./controllers/userController')
 const folderController = require('./controllers/folderController')
