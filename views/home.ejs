@@ -507,10 +507,12 @@ iframe{
                             <button id="close-preview-btn" style="background-color: transparent; border: none; padding: 5px 10px; cursor: pointer;">
                                 <i  class="fa-solid fa-x" style="color: #ffffff; font-size: 1.2rem"></i>
                             </button>
-                            <div style="display:flex; flex-direction: row; gap: 1.2rem">
+                            <div style="display:flex; flex-direction: row; gap: 1.2rem; align-items: center;">
                                 <p><%=previewObj.file.name%></p>
                                 <p> <%=previewObj.file.extention%> | <%=previewObj.file.size%> MB</p>
-
+                                <a href="/download/<%=previewObj.file.id%>">
+                                    <i f class="fa-solid fa-download" style="color: #ffffff; font-size: 1.5rem"></i>
+                                </a>
                             </div>
 
 

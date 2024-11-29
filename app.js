@@ -17,6 +17,7 @@ const upload = multer({ dest: 'uploads/' })
 const fileController = require('./controllers/fileController')
 const userController = require('./controllers/userController')
 const folderController = require('./controllers/folderController')
+const https = require('https');
 const fs = require('fs');
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
@@ -180,6 +181,30 @@ app.post('/upload/:folder', upload.single('file'), function (req, res, next) {
   }
   fileController.fileUpload(req,res,next);
 })
+
+app.get('/download/:fileId', async (req, res) => {
+  try {
+    const File = await db.getFileById(parseInt(req.params.fileId));
+    const filePath = path.resolve(__dirname, File.url); 
+
+    if (!fs.existsSync(filePath)) {
+      return res.status(404).send('File not found');
+    }
+
+    // Send the file to the client
+    res.download(filePath, File.name, (err) => {
+      if (err) {
+        console.error('Error sending file:', err);
+        res.status(500).send('Error downloading file');
+      }
+    });
+  } catch (error) {
+    console.error('Error handling request:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+
 
 
 
