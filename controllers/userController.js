@@ -1,6 +1,8 @@
 const bcrypt = require("bcryptjs");
 const db = require('../database/queries')
+const axios = require('axios');
 const fs = require('fs');
+const handlePreview = require('./previewController');
 function createUser(req,res,next)
 {
     try {
@@ -22,54 +24,6 @@ function createUser(req,res,next)
       }
 }
 
-
-
-async function handlePreview(req)
-{
-    let previewObj = {preview:false};
-
-    if (req.query.preview != undefined) {
-        let file = await db.getFileById(parseInt(req.query.preview));
-        
-        console.log(file);
-    
-        if (file.extention.startsWith('text')) {
-            try {
-                const data = fs.readFileSync(file.url, 'utf8');
-                
-                console.log('File content:', data);
-                
-                file = { ...file, content: data };
-                previewObj['file'] = file;
-                previewObj['type'] = "text";
-                previewObj['preview'] = true;
-    
-                console.log(previewObj);
-            } catch (err) {
-                console.error('Error reading the file:', err);
-            }
-            let newContent = previewObj.file.content.replaceAll('\n', '<br>')
-            previewObj.file = {...previewObj.file, content:newContent};
-        }
-
-        else if (file.extention.startsWith('image'))
-        {
-            const image = fs.readFileSync(file.url);
-            previewObj['preview'] = true;
-            previewObj['type'] = "image";
-            previewObj['file'] = file;
-        }
-
-        else if (file.extention.split('/')[1] == 'pdf')
-        {
-            previewObj['preview'] = true;
-            previewObj['file'] = file;
-            previewObj['type'] = "pdf";
-        }
-    }
-
-    return previewObj;
-}
 
 
 
@@ -121,7 +75,7 @@ async function renderAuthUser(req,res)
 
         }
         console.log(currentFiles)
-        let previewObj = await handlePreview(req);
+        let previewObj = await handlePreview(req,res);
 
         if (req.query.search != undefined)
         {
@@ -135,4 +89,4 @@ async function renderAuthUser(req,res)
 
 
 
-module.exports = {createUser,renderAuthUser}
+module.exports = {createUser,renderAuthUser, handlePreview}

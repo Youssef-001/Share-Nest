@@ -13,7 +13,7 @@ const db = require("./database/queries");
 app.use(express.urlencoded({ extended: false }));
 const prisma = new PrismaClient();
 const multer  = require('multer')
-const upload = multer({ dest: 'uploads/' })
+const upload = multer()
 const fileController = require('./controllers/fileController')
 const userController = require('./controllers/userController')
 const folderController = require('./controllers/folderController')
@@ -21,7 +21,7 @@ const https = require('https');
 const fs = require('fs');
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
-
+const shareController = require('./controllers/shareController')
 
 
 // app.use('/uploads/:id', (req, res, next) => {
@@ -38,38 +38,38 @@ app.set("view engine", "ejs");
 
 // app.use(express.static('uploads'))
 
-app.get('/folder/file/:fileId', async(req, res) => {
-  const { fileId } = req.params;
-  let file = await db.getFileById(parseInt(fileId));
-  let fileName = file.url.split('/')[1];
+// app.get('/folder/file/:fileId', async(req, res) => {// TODO: WHY FOLDER/FILE:ID ACCESSED ON PDF PREVIEWS
+//   const { fileId } = req.params;
+//   let file = await db.getFileById(parseInt(fileId));
+//   let fileName = file.url.split('/')[1];
 
-  const filePath = path.join(__dirname, 'uploads', fileName);
-  let fileExtension = file.extention;
-
-
-  if (fileExtension === 'application/octet-stream' || fileExtension == 'application/pdf') {
-    res.set({
-      'Content-Type': 'application/pdf',
-      'Content-Disposition': `inline; filename="${fileName}"`, // or 'attachment;' to force download
-    });
-  }
-
-  // Check if file exists
-  fs.access(filePath, fs.constants.F_OK, async(err) => {
-    if (err) {
-      return res.status(404).send('File not found');
-    }
-
-    // Serve the file
-    if (file.extention == "application/octet-stream")
-    {
-      console.log("SPYYYYY");
-    }
+//   const filePath = path.join(__dirname, 'uploads', fileName);
+//   let fileExtension = file.extention;
 
 
-    res.sendFile(filePath);
-  });
-});
+//   if (fileExtension === 'application/octet-stream' || fileExtension == 'application/pdf') {
+//     res.set({
+//       'Content-Type': 'application/pdf',
+//       'Content-Disposition': `inline; filename="${file.name}"`, // or 'attachment;' to force download
+//     });
+//   }
+
+//   // Check if file exists
+//   fs.access(filePath, fs.constants.F_OK, async(err) => {
+//     if (err) {
+//       return res.status(404).send('File not found');
+//     }
+
+//     // Serve the file
+//     if (file.extention == "application/octet-stream")
+//     {
+//       console.log("SPYYYYY");
+//     }
+
+
+//     res.sendFile(file.url);
+//   });
+// });
 
 
 
@@ -188,38 +188,15 @@ app.get('/folder/:folderId', (req,res) => {
 
 
 
-app.get('/download/:fileId', async (req, res) => {
-  try {
-    const File = await db.getFileById(parseInt(req.params.fileId));
-    const filePath = path.resolve(__dirname, File.url); 
-
-    if (!fs.existsSync(filePath)) {
-      return res.status(404).send('File not found');
-    }
-
-    // Send the file to the client
-    res.download(filePath, File.name, (err) => {
-      if (err) {
-        console.error('Error sending file:', err);
-        res.status(500).send('Error downloading file');
-      }
-    });
-  } catch (error) {
-    console.error('Error handling request:', error);
-    res.status(500).send('Internal Server Error');
-  }
-});
-
-
-
-
-
-
-
 app.post('/create-folder', (req,res) => {
   folderController.createFolder(req,res);
 })
 
+
+app.get('/share/:folder_id', (req,res) => {
+  console.log(req.session);
+  shareController.handleShare(req,res);
+})
 
 app.use((req, res, next) => {
   console.log('Session:', req.session);

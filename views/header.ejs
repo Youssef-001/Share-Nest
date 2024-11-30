@@ -44,7 +44,7 @@
         }
 
         svg{
-            color: #F5E6CC
+            color: black
         }
 
         .profile{
@@ -77,6 +77,30 @@
         .logout:hover{
             background-color: #f0f0f0;
         }
+
+
+
+
+.control{
+           background-color: transparent;
+           all:unset;
+           border: 1px solid #e7e7e9;
+           padding: 0.5rem 1rem;
+           color: black;
+           border-radius: 6px;
+           margin: 10px;
+
+
+        }
+        
+        .account-controls{
+            margin-left: auto;
+            padding: 1.2rem;
+            margin-right: 2rem;
+        }
+
+
+
     </style>
 </head>
 <body>
@@ -103,9 +127,9 @@
 
          
           <% } else { %>
-            <div class="controls">
-                <a href="/login"><button>Login</button></a>
-                <a href="/sign-up"><button>Signup</button></a>
+            <div class="account-controls" >
+                <a  href="/login"><button class="control">Login</button></a>
+                <a  href="/sign-up"><button class="control">Signup</button></a>
             </div>
             <!-- Optionally, you can display something else here when not authenticated -->
           <% } %>

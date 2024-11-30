@@ -16,41 +16,46 @@ datasource db {
 model Session {
   id        String   @id
   sid       String   @unique
-  data      String     // MediumText may be needed for MySql
-  expiresAt   DateTime
+  data      String // MediumText may be needed for MySql
+  expiresAt DateTime
 }
- 
 
 model users {
-  id Int @id @default(autoincrement())
-  username String 
-  email String @unique
+  id       Int      @id @default(autoincrement())
+  username String
+  email    String   @unique
   password String
-  folders folder[]
+  folders  folder[]
 }
 
-
 model file {
-  id Int @id @default(autoincrement())
-  name String 
-  size Float
+  id        Int      @id @default(autoincrement())
+  name      String
+  size      Float
   extention String
-  url String
-  folder folder @relation(fields: [folderId], references: [id])
-  folderId Int
-  Date DateTime @default(now())
+  url       String
+  folder    folder   @relation(fields: [folderId], references: [id])
+  folderId  Int
+  Date      DateTime @default(now())
 
   @@index(name)
-
 }
 
 model folder {
-    id Int @id  @default(autoincrement())
-    name String @default("New Folder")
-    owner users @relation(fields: [ownerId], references: [id])
-    ownerId Int
-    files file[]
+  id      Int              @id @default(autoincrement())
+  name    String           @default("New Folder")
+  owner   users            @relation(fields: [ownerId], references: [id])
+  ownerId Int
+  files   file[]
+  shares  shared_folders[]
+}
 
+model shared_folders {
+  id          String      @id @default(uuid())
+  shareFolder folder   @relation(fields: [folderId], references: [id])
+  folderId    Int
+  expiresAt   DateTime // Add expiration time
+  createdAt   DateTime @default(now())
 }
 
 // enum FileExtension {
