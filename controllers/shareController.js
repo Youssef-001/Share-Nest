@@ -1,5 +1,6 @@
 const db = require('../database/queries')
 const handlePreview = require('./previewController');
+const userController = require('./userController')
 
 
 async function handleShare(req,res)
@@ -9,25 +10,29 @@ async function handleShare(req,res)
     
     let shared_folder = await db.getSharedFolder(shared_folder_id);
 
-    // handle link duration
 
     let isAuth = req.isAuthenticated();
 
     let files = shared_folder.shareFolder.files;
 
-    let createdAt =  new Date(shared_folder.createdAt);
-    let expiresAt = new Date(shared_folder.expiresAt);
-
-    if (expiresAt >= createdAt)
-    {
-        //res.render('expired')
-    }
-
 
     let previewObj = await handlePreview(req,res);
+    
+    for (let i = 0; i < files.length; i++)
+        {
+            let file = files[i];
+        let newDate = String(file.Date);
+        console.log(newDate.substring(0, 25))
+        let date = newDate.substring(0,25);
+        
+            files[i] = {...file,Date: date}
 
-    res.render('shared', {authenticated: isAuth, files:files, currentFolder: shared_folder.shareFolder.id , previewObj})
-//        res.render("index", {authenticated: req.isAuthenticated(), folders: userFolders, files: currentFiles, currentFolder: req.params.folderId, previewObj});
+        }
+        if (req.query.search)
+        {
+        files = userController.handleSearchQuery(req.query.search, files)
+        }
+    res.render('shared', {authenticated: isAuth, share_id: shared_folder_id ,files:files, currentFolder: shared_folder.shareFolder.id , previewObj})
 
 }
 
