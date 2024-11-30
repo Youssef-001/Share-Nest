@@ -10,11 +10,11 @@ const checkLink = async(req,res,next) => {
 
     if (expiresAt >= createdAt)
     {
-        res.render('expired')
+        res.status(400).render('expired')
     }
 
 
-    
+
     next();
 }
 
