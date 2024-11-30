@@ -67,6 +67,7 @@ body{
     grid-template-columns: 1fr;
     grid-template-rows: auto 1fr;
     margin-right: 10rem;
+    width: 100vw;
 
     /* margin-right: 9rem; */
 
@@ -209,7 +210,7 @@ main{
     display:grid;
 
     grid-template-rows: auto  1fr;
-    grid-template-columns: auto 1fr  ;
+    grid-template-columns:1fr ;
 
     padding-top: 120px;
     width: 100vw;
@@ -541,9 +542,9 @@ iframe{
 
                 <div class="controls">
                     <div class="search">
-                        <form action="/folder/<%=currentFolder%>" id="search-form">
+                        <form action="/share/<%=share_id%>" id="search-form">
 
-                            <div style="display:flex; position:relative; background-color: #ffffff; justify-content: center; align-items: center; border: 1px solid #e0e0e0">
+                            <div style="display:flex;background-color: #ffffff; justify-content: center; align-items: center; border: 1px solid #e0e0e0">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
                                   </svg>                              
@@ -552,6 +553,11 @@ iframe{
                             
                         </form>
                     </div>
+
+
+                    <% if (authenticated == true) { %>
+
+
                     <form id="upload" action="/upload/<%=currentFolder%>" method="post" enctype="multipart/form-data">
       
                           <div style="display: flex; padding: 0.5rem;">
@@ -563,9 +569,14 @@ iframe{
                           </div>
                           
                     </form>
+
+                    <%}%>
             
             
             
+
+                    <% if (authenticated == true) { %>
+
             
                       <div>
                         <dialog >
@@ -598,7 +609,7 @@ iframe{
                               
                           </button>
                       </div>
-                      
+                      <%}%>
             
                 </div>
 

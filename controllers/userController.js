@@ -68,7 +68,7 @@ async function renderAuthUser(req,res)
             let file = currentFiles[i];
         let newDate = String(file.Date);
         console.log(newDate.substring(0, 16))
-        let date = newDate.substring(0,16);
+        let date = newDate.substring(0,25);
         
             let newExtension = file.extention.split('.')[1];
             currentFiles[i] = {...file,Date: date}
@@ -89,4 +89,4 @@ async function renderAuthUser(req,res)
 
 
 
-module.exports = {createUser,renderAuthUser, handlePreview}
+module.exports = {createUser,renderAuthUser, handlePreview,handleSearchQuery}
