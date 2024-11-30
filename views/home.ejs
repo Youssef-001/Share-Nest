@@ -508,7 +508,7 @@ iframe{
                             <div style="display:flex; flex-direction: row; gap: 1.2rem; align-items: center;">
                                 <p><%=previewObj.file.name%></p>
                                 <p> <%=previewObj.file.extention%> | <%=previewObj.file.size%> MB</p>
-                                <a href="/download/<%=previewObj.file.id%>">
+                                <a target="_blank" href="<%=previewObj.file.url%>">
                                     <i f class="fa-solid fa-download" style="color: #ffffff; font-size: 1.5rem"></i>
                                 </a>
                             </div>

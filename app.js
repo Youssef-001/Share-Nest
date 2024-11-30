@@ -188,34 +188,6 @@ app.get('/folder/:folderId', (req,res) => {
 
 
 
-app.get('/download/:fileId', async (req, res) => {
-  try {
-    const File = await db.getFileById(parseInt(req.params.fileId));
-    const filePath = path.resolve(__dirname, File.url); 
-
-    if (!fs.existsSync(filePath)) {
-      return res.status(404).send('File not found');
-    }
-
-    // Send the file to the client
-    res.download(filePath, File.name, (err) => {
-      if (err) {
-        console.error('Error sending file:', err);
-        res.status(500).send('Error downloading file');
-      }
-    });
-  } catch (error) {
-    console.error('Error handling request:', error);
-    res.status(500).send('Internal Server Error');
-  }
-});
-
-
-
-
-
-
-
 app.post('/create-folder', (req,res) => {
   folderController.createFolder(req,res);
 })
