@@ -317,9 +317,12 @@
   }
 
   dialog {
-    width: 30vw;
-    height: 30vh;
+     width: 40vw; 
+     height: 40vh; 
     padding: 2rem;
+    max-height: 60vh;
+    border-radius: 12px;
+    border: 2px solid #e0e0e0;
   }
 
   .create-folder {
@@ -481,6 +484,83 @@
     font-family: Nimbus Sans;
     border-radius: 8px;
   }
+
+
+  .share-folder {
+  font-family: Arial, sans-serif;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 250px;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+select {
+  width: 85%;
+  padding: 12px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+}
+
+select:focus {
+  outline: none;
+  border-color: #007BFF;
+  background-color: #fff;
+}
+
+.copy{
+    all:unset;
+    cursor: pointer;
+}
+
+#link-input{
+    width: 90%;
+    padding: 0.5rem 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    border: 2px solid #e8e8eb;
+    border-radius: 8px;
+}
+
+#link-input:focus{
+    border: 1px solid black;
+}
+
+.link{
+    display:flex;
+    flex-direction: column;
+    margin-top: 2rem
+}
+
+.link svg{
+    color: black
+}
+
+#generate{
+
+    margin-right: 2rem;
+    /* margin: 0; */
+    height: fit-content;
+    padding: 0.5rem 1rem;
+    color: white;
+    background-color: black;;
+    border: none;
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-family: Nimbus Sans;
+    border-radius: 8px;
+    font-weight: 700;
+
+}
+
 </style>
 
 
@@ -614,7 +694,7 @@
 
 
           <div>
-            <dialog>
+            <dialog >
               <button class="close" autofocus><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
                 </svg>
@@ -697,7 +777,53 @@
 
     </div>
 
+<dialog id="share" >
+    <button class="close" id="close-share" autofocus><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
+      </svg>
+    </button>
 
+    <div>
+        <div class="share-folder-info" style="display:flex; gap: 1rem; font-size: 1.125rem; align-items: center; font-weight: 600">
+            <i class="fa-regular fa-folder"></i>
+            <p>Share folder</p>
+        </div>
+        <p style="color:#a7a7ad; font-weight: 600; font-size: 0.9rem">Share "<%=currentFolder.name%>" - Set how long this folder will be accessible via the share link.</p>
+
+        <div class="duration">
+            
+            <label for="expiry">Link expires in</label>
+            <form style="display:flex; gap:1rem" action="/folder/<%=currentFolder.id%>">
+
+
+
+                   <select id="expiry" name="expiry">
+                       <option value="1-day">1 day</option>
+                       <option value="7-days" selected>7 days</option>
+                       <option value="30-days">30 days</option>
+                       <option value="90-days">90 days</option>
+                     </select>
+                     
+                     <button type="submit" id="generate">Generate</button>
+                </form> 
+        </div>
+
+        <div class="link">
+            <label for="link">Share link</label>
+            <div style="display:flex; gap: 1rem">
+
+                <input type="text" name="link" id="link-input" placeholder="URL..." disabled>
+                <button class="copy">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 0 1-.75.75H9a.75.75 0 0 1-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184" />
+                      </svg>
+                      
+                </button>
+            </div>
+        </div>
+    </div>
+</dialog>
+    
 
 
 
@@ -722,6 +848,8 @@
   const showButton = document.querySelector("dialog + button");
   const closeButton = document.querySelector("dialog button");
 
+  
+
   // "Show the dialog" button opens the dialog modally
   showButton.addEventListener("click", () => {
     dialog.showModal();
@@ -730,6 +858,19 @@
   // "Close" button closes the dialog
   closeButton.addEventListener("click", () => {
     dialog.close();
+  });
+</script>
+
+<script>
+    let shareButton = document.querySelector('.share-btn');
+    let shareDialog = document.querySelector('#share');
+    let closeShareBtn = document.querySelector('#close-share')
+    shareButton.addEventListener('click', (e) => {
+        shareDialog.showModal();
+    })
+
+    closeShareBtn.addEventListener("click", () => {
+        shareDialog.close();
   });
 </script>
 
@@ -806,5 +947,30 @@
     container.style.gridTemplateColumns = '1fr';
   })
 </script>
+
+
+<script>
+    let generateBtn = document.querySelector('#generate');
+    let select = document.querySelector('select');
+
+    generateBtn.addEventListener('click', (e) => {
+        console.log(select.value);
+    })
+</script>
+
+
+<script>
+    const urlParameters = new URLSearchParams(window.location.search);
+
+if (urlParams.has('expiry')) {
+  console.log("Expiry parameter exists:", urlParams.get('expiry'));
+  let expiry = urlParams.get('expiry');
+  shareDialog.showModal();
+
+} else {
+  console.log("Expiry parameter does not exist");
+}
+</script>
+
 
 </html>
