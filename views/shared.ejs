@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<link href="https://fonts.googleapis.com/css2?family=Liberation+Mono&display=swap" rel="stylesheet">
+<style>
+    svg{
+        width: 3rem;
+        height: 3rem;
+        color:black;
+    }
+
+    input[type="file"] {
+  display: none;
+}
+
+
+body{
+    font-family: Helvetica;
+    box-sizing: border-box;
+}
+
+
+.custom-file-upload {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  color: white;
+  background-color: #18181b; /* Customize color */
+  border: 1px solid #007bff;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Hover effect for the label */
+.custom-file-upload:hover {
+  background-color: #333333;
+  color: #ffffff;
+}
+
+/* Hide the default file input */
+#file-upload {
+  display: none;
+}
+.container1{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+}
+
+
+.container2{
+    /* display: flex; */
+
+    /* flex-direction: column;
+    gap: 2rem; */
+
+    display:grid;
+
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+    margin-right: 10rem;
+
+    /* margin-right: 9rem; */
+
+
+}
+
+
+
+.empty{
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    /* align-items: center; */
+}
+
+/* form{
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+} */
+
+.container1 svg {
+    width: 12rem;
+    height: 12rem;
+    color: grey;
+    border: transparent;
+
+}
+
+dialog svg{
+    width: 2rem;
+    height: 2rem;
+}
+
+.container1 {
+    color: #2D3748;
+}
+.container1,.container2 label {
+    border: none;
+    
+}
+
+.container2{
+    color: #2D3748;
+    width: 100%;
+    height: 100vh;
+    gap: 1rem;
+
+}
+
+li{
+    color: #2D3748;
+}
+
+
+
+/* Base Style */
+.upload-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  background-color: #48BB78; /* Green */
+  color: #FFFFFF; /* White text */
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.upload-button:hover {
+  background-color: #38B2AC; /* Teal hover effect */
+}
+
+.upload-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px #38B2AC; /* Focus effect with teal border */
+}
+
+/* Upload Icon (Optional) */
+.upload-button .icon {
+  margin-right: 8px;
+  font-size: 18px; /* Size of the icon */
+}
+
+/* Disabled state */
+.upload-button:disabled {
+  background-color: #E2E8F0; /* Light gray background for disabled */
+  color: #A0AEC0; /* Lighter text for disabled */
+  cursor: not-allowed;
+  box-shadow: none; /* No shadow when disabled */
+}
+
+
+.file{
+    display:grid;
+     grid-template-columns:  2fr 1fr 1fr 1fr;
+
+
+    
+    grid-column: 1/-1;
+
+    border-bottom: 1px solid #e4e4e7;
+    padding: 15px;
+    font-size: 16px;
+    cursor: pointer;
+    
+    
+
+
+
+}
+
+.files{
+
+    background-color: #ffffff;
+    border: 1px solid #e4e4e7;
+    margin-top: 1rem;
+    border-radius: 4px;
+    margin-right: 2rem;
+    padding: 3rem 10rem;
+
+    
+
+}
+
+
+
+a {
+  text-decoration: none; /* Removes underlining */
+  color: inherit; /* Inherits color from parent element, or you can set your own color */
+  outline: none; /* Removes the outline around the link when focused (use cautiously for accessibility) */
+}
+
+main{
+    display:grid;
+
+    grid-template-rows: auto  1fr;
+    grid-template-columns: auto 1fr  ;
+
+    padding-top: 120px;
+    width: 100vw;
+    height: 100vh;
+  
+
+}
+
+#search{
+    /* padding: 1rem; */
+    /* width: 80%; */
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+    border: 1px solid #ffffff;
+    width: auto;
+    font-size: 1.3rem;
+    padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  margin-left: 1rem;
+
+}
+
+#search:focus{
+    border: 1px solid grey;
+}
+
+nav{
+    margin:0;
+    padding:0;
+}
+
+
+
+.search{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    /* margin-top: 2rem; */
+    /* grid-row: 1/2; */
+}
+
+.controls{
+    /* grid-row: 2/3; */
+    display:flex;
+    justify-content: center;    
+    align-items: center;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+    }
+
+nav{
+    grid-column: 1/2;
+    grid-row: 1/-1;
+    /* padding: 2rem; */
+    margin-right: 8rem;
+
+}
+
+
+
+.folder{
+    display:flex;
+    /* flex-direction: column; */
+    gap: 1rem;
+    flex:1;
+
+    align-items: center;
+
+}
+
+.folder:hover{
+    background-color: #f0f8ff;
+
+}
+
+.dialog {
+      top: 50%;
+      left: 50%;
+      -webkit-transform: translateX(-50%) translateY(-50%);
+      -moz-transform: translateX(-50%) translateY(-50%);
+      -ms-transform: translateX(-50%) translateY(-50%);
+      transform: translateX(-50%) translateY(-50%);
+    }
+
+
+#search:focus{
+    border: 1px solid blue;
+}
+
+#create-folder{
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border-radius: 4px;
+    background-color: #ffffff;
+    color: black;
+    border: 1px solid #e4e4e7;
+
+
+}
+
+#create-folder:hover{
+    background-color: #e0e0e0;
+}
+
+dialog svg{
+    color:#a0c4ff;
+}
+
+dialog{
+    width: 30vw;
+    height: 30vh;
+    padding: 2rem;
+}
+
+
+.create-folder{
+    /* display:flex; */
+    /* justify-content: center; */
+    align-items: center;
+    gap: 10px
+
+}
+
+.create-folder  {
+    font-size: 1.2rem;
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 0.8rem;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+.close svg{
+    color: black;
+}
+
+#input-folder{
+    padding: 8px;
+    font-size: 1.1rem;
+    border-radius: 6px;
+    border: 1px solid green;
+    width: 100%;
+}
+
+.dialog-controls{
+    display:flex;
+    gap: 1rem;
+    position:absolute;
+    bottom: 10px;
+    right: 10px;
+}
+
+.dialog-controls button {
+    padding: 10px 20px;    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.dialog-controls button[type='submit']
+{
+    background-color: #2C3E50;
+    color: white;
+}
+
+.dialog-controls button[type='submit']:hover{
+    background-color: #95A5A6;
+}
+
+button:disabled{
+    background-color: #d6d6d6; /* Light gray for disabled state */
+  color: #9c9c9c; /* Subdued text color */
+  cursor: not-allowed; /* Indicates unclickable state */
+  opacity: 0.6; /* Makes it visually less prominent */
+}
+
+.file:hover{
+    background-color: #e0e0e0;
+}
+
+.file{
+    transition: background-color 0.2s ease;
+    /* cursor:pointer */
+}
+
+.search svg{
+    width: 2rem;
+    height: 2rem;;
+    /* position: absolute;
+    top: 5px;
+    left: -35px; */
+    margin-left: 5px;
+}
+
+#create-folder-form{
+    margin-top: 1rem;
+}
+
+i {
+    font-size: 3rem;
+}
+
+#file-preview{
+grid-column: 2/-1;
+grid-row: 1/-1;
+background-color: #18181b;
+overflow-y: auto;
+
+}
+
+.file-info{
+    display:flex;
+    background-color: #242321;
+    gap: 1rem;
+    padding: 1rem;
+    position: fixed;
+    width: 100%;
+}
+
+.file-content {
+    padding: 2rem;
+    /* word-wrap: break-word; */
+/* white-space: pre-wrap; */
+font-family: 'Liberation Mono', monospace;
+}
+
+iframe{
+    width: 100%; /* Make the iframe take the full width of its container */
+      height: 100vh; /* 90% of the viewport height */
+      border: none; /* Remove the border */
+      margin-top: 5rem;
+}
+
+.control:hover{
+    background-color: #e0e0e0;
+}
+
+</style>
+
+<%-include('header', {authenticated })%>
+
+<body>
+
+
+
+    <main>
+
+
+    </div>
+
+        
+            <div class="container2">
+
+
+                <div id="file-preview"  style="color: white; font-size: 1.1rem; font-family: Helvetica; display:none">
+                    <% if (previewObj.preview == true) { %>
+
+                        <div class="file-info">
+                            <button id="close-preview-btn" style="background-color: transparent; border: none; padding: 5px 10px; cursor: pointer;">
+                                <i  class="fa-solid fa-x" style="color: #ffffff; font-size: 1.2rem"></i>
+                            </button>
+                            <div style="display:flex; flex-direction: row; gap: 1.2rem; align-items: center;">
+                                <p><%=previewObj.file.name%></p>
+                                <p> <%=previewObj.file.extention%> | <%=previewObj.file.size%> MB</p>
+                                <a target="_blank" href="<%=previewObj.file.url%>">
+                                    <i f class="fa-solid fa-download" style="color: #ffffff; font-size: 1.5rem"></i>
+                                </a>
+                            </div>
+
+
+                        </div>
+
+                            <div class="file-content">
+
+                                <% if (previewObj.type == "text")
+
+                                { %>
+
+                                    <p>
+                                        
+                                        <%- previewObj.file.content %>
+                                    </p>
+
+                                <%
+                            
+                            } else if(previewObj.type == "image")
+                            {
+
+                                
+                                %>
+
+                                <img style="width: 100%; position:fixeed;
+  height: 100%;" src="<%=previewObj.file.url%>" alt="">
+
+
+
+                                <%}
+                                
+                                else if(previewObj.type == "pdf")
+                                {
+
+                                
+                                
+                                %>
+<!--                                 src="https://res.cloudinary.com/dgy6jnjf0/image/upload/v1732880674/foo/ybfbbxlcrijlkwezr4ps.pdf" 
+ -->
+                                <iframe 
+                                    src="<%=previewObj.file.url%>"
+                                style="border: none;">
+                              </iframe>
+
+                              
+                              <%}%>
+
+
+                            </div>
+
+                          
+                       
+                    <% } %>
+                    
+                   </div>
+                
+               
+
+                <div class="controls">
+                    <div class="search">
+                        <form action="/folder/<%=currentFolder%>" id="search-form">
+
+                            <div style="display:flex; position:relative; background-color: #ffffff; justify-content: center; align-items: center; border: 1px solid #e0e0e0">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                                  </svg>                              
+                                <input type="search" placeholder="" name="search" id="search">
+                            </div>
+                            
+                        </form>
+                    </div>
+                    <form id="upload" action="/upload/<%=currentFolder%>" method="post" enctype="multipart/form-data">
+      
+                          <div style="display: flex; padding: 0.5rem;">
+                            <label for="file-upload" class="custom-file-upload">
+                                <i style="font-size: 1rem" class="fa-solid fa-upload" style="color: #ffffff;"></i>
+                              Upload
+                            </label>
+                            <input id="file-upload" type="file" name="file" />
+                          </div>
+                          
+                    </form>
+            
+            
+            
+            
+                      <div>
+                        <dialog >
+                            <button class="close" autofocus><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
+                              </svg>
+                              </button>
+                            
+                            <div class="create-folder">
+
+                                <p style="font-weight: 600">New folder</p>
+                                <p style="color: #74747d">Enter a name for your new folder.</p>
+                            </div>
+            
+                            <form id="create-folder-form" method="POST" action="/create-folder">
+                                <label style="font-weight: 600" for="Name">Folder name</label>
+                                <input id="input-folder" type="text" placeholder="My folder" name="folderName">
+            
+                                <div class="dialog-controls">
+                                    <button class="create-btn" type="submit" disabled>Create</button>
+                                    <button  formmethod="dialog" type="button">Cancel</button>
+                                </div>
+                            </form>
+            
+                          </dialog>
+                          <button id="create-folder">
+                           
+                            <i style="font-size: 1rem; margin-right: 5px" class="fa-regular fa-folder"></i>
+                                New Folder
+                              
+                          </button>
+                      </div>
+                      
+            
+                </div>
+
+                <div class="files">
+                    <div class="file" style="border: none;">
+                        <p>Name</p>
+                        <p>Type</p>
+                        <p>Size</p>
+                        <p>Date</p>
+                    </div>
+                    <% files.forEach(function(file) { %>
+                        <!-- Wrap the file item with an <a> tag for linking -->
+                        <a href="javascript:void(0);" class="file-link" data-id="<%= file.id %>" style="all: unset; width: 100%; display: block; background: none; text-decoration: none;">
+                            <div id="<%= file.id %>" class="file">
+                    
+                                <div style="display: flex; gap: 1rem; align-items: center;">
+                                    <% if (file.extention.startsWith('image/')) { %>
+                                        <img style="width: 5rem; height: 3rem;" src="<%= file.url %>" alt="Image preview">
+                                    <% } else if (file.extention === 'application/pdf') { %>
+                                        <i class="fa-regular fa-file-pdf" style="font-size: 3rem;"></i>
+                                    <% } else if (file.extention === 'application/javascript' || file.extention.startsWith('text/') || ['application/json', 'text/html', 'text/css', 'text/x-c'].includes(file.extention)) { %>
+                                        <i class="fa-solid fa-code" style="font-size: 3rem;"></i>
+                                    <% } else { %>
+                                        <i class="fa-solid fa-file" style="font-size: 3rem;"></i>
+                                    <% } %>
+                    
+                                    <p><%= file.name %></p>
+                                </div>
+                                <p><%= file.extention %></p>
+                                <p><%= file.size %> MB</p>
+                                <p><%= file.Date %></p>
+                            </div>
+                        </a>
+                    <% }); %>
+                </div>
+                
+                
+           
+        </div>
+        
+        
+
+    </div>
+
+   
+
+ 
+
+
+
+    </main>
+
+      
+</body>
+<script>
+    document.getElementById('file-upload').addEventListener('change', function () {
+      // Get the form element
+      const form = document.getElementById('upload');
+      
+      // Submit the form automatically
+      form.submit();
+    });
+  </script>
+
+
+
+<script>
+    const dialog = document.querySelector("dialog");
+const showButton = document.querySelector("dialog + button");
+const closeButton = document.querySelector("dialog button");
+
+// "Show the dialog" button opens the dialog modally
+showButton.addEventListener("click", () => {
+  dialog.showModal();
+});
+
+// "Close" button closes the dialog
+closeButton.addEventListener("click", () => {
+  dialog.close();
+});
+
+  </script>
+
+
+<script>
+    let input = document.querySelector('#input-folder');
+    let createBtn = document.querySelector('.create-btn');
+    console.log(createBtn);
+    console.log(input);
+    input.addEventListener('input', (e) => {
+        console.log(input.value);
+        if (input.value == "")
+    {
+        createBtn.disabled=true;
+    }
+    else {
+        createBtn.disabled=false;
+    }
+    })
+</script>
+
+
+<script>
+    const cancelButton = document.querySelector('.dialog-controls button[type="button"]');
+let dialogu = document.querySelector('dialog');
+
+cancelButton.addEventListener('click', () => {
+    dialogu.close();
+});
+
+
+
+</script>
+
+<script src="https://kit.fontawesome.com/714a2a5688.js" crossorigin="anonymous"></script>
+
+
+
+<script>
+    // JavaScript to dynamically append 'preview' query parameter to the URL
+    document.querySelectorAll('.file-link').forEach(link => {
+        link.addEventListener('click', function() {
+            const fileId = this.getAttribute('data-id');
+            const currentUrl = window.location.href;
+            const newUrl = new URL(currentUrl);
+            console.log('newurl: ', newUrl)
+            newUrl.searchParams.set('preview', fileId); // Append 'preview' query parameter with file.id
+            
+            // Redirect to the new URL with the 'preview' query
+            window.location.href = newUrl.toString();
+        });
+    });
+</script>
+
+
+
+
+<script>
+    const container = document.querySelector('.container2');
+    const preview = document.getElementById('file-preview');
+
+    // Check the URL for the "preview" query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const previewQuery = urlParams.get('preview');
+
+    // If "preview" query exists in the URL, show the preview and adjust grid layout
+    if (previewQuery !== null) {
+        preview.style.display = 'block'; // Show the preview
+        container.style.gridTemplateColumns = '1fr 3fr'; // Change layout to 1fr 3fr
+    } else {
+        preview.style.display = 'none'; // Hide the preview
+        container.style.gridTemplateColumns = '1fr'; // Change layout to 1fr
+    }
+
+    const closePreviewBtn = document.getElementById('close-preview-btn');
+
+    closePreviewBtn.addEventListener('click', (e) => {
+        preview.style.display = 'none'; 
+        container.style.gridTemplateColumns = '1fr';
+    })
+</script>
+
+</html>

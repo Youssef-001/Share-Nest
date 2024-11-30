@@ -117,6 +117,26 @@ async function getFileById(id)
     return file;
 }
 
+async function getSharedFolder(id)
+{
+  let sharedFolder = await prisma.shared_folders.findUnique({
+    where: {
+      id : id
+    },
+    include: {
+      shareFolder: {
+        include: {
+          files:true
+        }
+      },
+
+     
+    },
+  })
+
+  return sharedFolder
+}
+
 
 module.exports = {
   createUser,
@@ -129,4 +149,5 @@ module.exports = {
   addFile,
   getUserFirstFolder,
   createFolder,getFileById,
+  getSharedFolder
 };

@@ -21,7 +21,7 @@ const https = require('https');
 const fs = require('fs');
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
-
+const shareController = require('./controllers/shareController')
 
 
 // app.use('/uploads/:id', (req, res, next) => {
@@ -192,6 +192,11 @@ app.post('/create-folder', (req,res) => {
   folderController.createFolder(req,res);
 })
 
+
+app.get('/share/:folder_id', (req,res) => {
+  console.log(req.session);
+  shareController.handleShare(req,res);
+})
 
 app.use((req, res, next) => {
   console.log('Session:', req.session);

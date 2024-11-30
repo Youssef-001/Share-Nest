@@ -51,7 +51,7 @@ model folder {
 }
 
 model shared_folders {
-  id          Int      @id @default(autoincrement())
+  id          String      @id @default(uuid())
   shareFolder folder   @relation(fields: [folderId], references: [id])
   folderId    Int
   expiresAt   DateTime // Add expiration time
