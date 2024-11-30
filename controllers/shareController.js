@@ -10,19 +10,10 @@ async function handleShare(req,res)
     
     let shared_folder = await db.getSharedFolder(shared_folder_id);
 
-    // handle link duration
 
     let isAuth = req.isAuthenticated();
 
     let files = shared_folder.shareFolder.files;
-
-    let createdAt =  new Date(shared_folder.createdAt);
-    let expiresAt = new Date(shared_folder.expiresAt);
-
-    if (expiresAt >= createdAt)
-    {
-        //res.render('expired')
-    }
 
 
     let previewObj = await handlePreview(req,res);

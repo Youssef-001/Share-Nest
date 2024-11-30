@@ -192,8 +192,9 @@ app.post('/create-folder', (req,res) => {
   folderController.createFolder(req,res);
 })
 
+const checkLink = require('./controllers/linkMiddleware.js');
 
-app.get('/share/:folder_id', (req,res) => {
+app.get('/share/:folder_id', checkLink, (req,res) => {
   console.log(req.session);
   shareController.handleShare(req,res);
 })
