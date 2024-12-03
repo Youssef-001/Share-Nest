@@ -16,14 +16,8 @@ async function shareFolder(req,res)
     newDate.setDate(newDate.getDate() + daysToAdd);
 
 
-    // testing
 
-    const now = new Date();
-
-// Add one minute to the current time
-now.setMinutes(now.getMinutes() + 2);
-
-    let sharedFolder = await db.createShareFolder(folderId, now);
+    let sharedFolder = await db.createShareFolder(folderId, newDate);
 
     const folderLink = sharedFolder.id; // Assuming this is the folder link you want to send
     res.json({folderLink});
