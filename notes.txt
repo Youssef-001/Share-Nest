@@ -6,3 +6,12 @@ tables: User, File, Folder
 User: ID, userName, email, password
 File: name, size, extention, url 
 Folder, name, [files]
+
+
+
+
+app.get('/folder/*')
+// get an array with all folders and give it to controller to get the data of the last nested folder
+// Handle create nested folder first
+- page for All folders where user can create parent level folders
+- Step one will be to handle route to view all folders, app.get('/folders');

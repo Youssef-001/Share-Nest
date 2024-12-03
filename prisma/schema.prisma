@@ -35,25 +35,26 @@ model file {
   extention String
   url       String
   folder    folder   @relation(fields: [folderId], references: [id])
-  folderId  Int
+  folderId  String
   Date      DateTime @default(now())
 
   @@index(name)
 }
 
 model folder {
-  id      Int              @id @default(autoincrement())
+  id      String              @id @default(uuid())
   name    String           @default("New Folder")
   owner   users            @relation(fields: [ownerId], references: [id])
   ownerId Int
   files   file[]
   shares  shared_folders[]
+  parent String           @default("root")
 }
 
 model shared_folders {
   id          String      @id @default(uuid())
   shareFolder folder   @relation(fields: [folderId], references: [id])
-  folderId    Int
+  folderId    String
   expiresAt   DateTime // Add expiration time
   createdAt   DateTime @default(now())
 }

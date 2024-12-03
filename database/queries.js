@@ -62,7 +62,7 @@ async function getUserFolders(id) {
 async function GetFolderFiles(id) {
   let folderFiles = await prisma.file.findMany({
     where: {
-      folderId: parseInt(id),
+      folderId: (id),
     },
   });
 
@@ -74,7 +74,7 @@ async function addFile(folderId, file) {
   const fileExtension = path.extname(file.originalname).toLowerCase();
   let newFile = await prisma.file.create({
     data: {
-      folderId: parseInt(folderId),
+      folderId: (folderId),
       size: parseFloat(file.size),
       name: file.originalname,
       url: file.path,
@@ -141,7 +141,7 @@ async function createShareFolder(folderId, expiresAt)
 {
   let sharedFolder = await prisma.shared_folders.create({
     data: {
-      folderId: parseInt(folderId),
+      folderId: (folderId),
       expiresAt: expiresAt
     }
   })
@@ -152,7 +152,7 @@ async function getFolderName(id)
 {
   let folder = await prisma.folder.findUnique({
     where: {
-      id:parseInt(id)
+      id:(id)
     }
   })
   return folder;

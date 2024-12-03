@@ -22,7 +22,7 @@ const fs = require('fs');
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 const shareController = require('./controllers/shareController')
-
+const isAuth = require('./controllers/authController.js')
 app.use(express.json());
 
 
@@ -132,6 +132,14 @@ app.post('/upload/:folder', upload.single('file'), function (req, res, next) {
   }
   fileController.fileUpload(req,res,next);
 })
+
+
+app.get('/folders', (req, res, next) => {
+  isAuth(req, res, next); 
+}, (req, res) => {
+  folderController.renderFolders(req, res); 
+});
+
 
 
 app.get('/folder/:folderId', (req,res) => {

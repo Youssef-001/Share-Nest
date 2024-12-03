@@ -11,6 +11,14 @@ async function createFolder(req,res) {
     res.redirect('/');
 }
 
+async function renderFolders(req,res)
+{
+    let id = req.session.passport.user;
+
+    let folders = await db.getUserFolders(id);
+    res.render('folders',{folders, authenticated: req.isAuthenticated()}) ;
+}
 
 
-module.exports = {createFolder}
+
+module.exports = {createFolder, renderFolders}
