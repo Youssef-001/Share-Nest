@@ -7,8 +7,11 @@ const checkLink = async(req,res,next) => {
 
     let createdAt =  new Date(shared_folder.createdAt);
     let expiresAt = new Date(shared_folder.expiresAt);
+    let now = new Date();
 
-    if (expiresAt >= createdAt)
+    console.log("expire: ", expiresAt);
+    console.log("noww" , now);
+    if (expiresAt <= now)
     {
         res.status(400).render('expired')
     }

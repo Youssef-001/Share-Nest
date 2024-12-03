@@ -23,54 +23,7 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 const shareController = require('./controllers/shareController')
 
-
-// app.use('/uploads/:id', (req, res, next) => {
-//   const fileExtension = path.extname(req.path);
-
-//   // Check if the requested file is a PDF
-//   if (fileExtension === '.pdf') {
-//     res.setHeader('Content-Type', 'application/pdf');
-//     res.setHeader('Content-Disposition', 'inline'); // Ensure inline viewing
-//   }
-
-//   next(); // Pass the request to the static middleware
-// });
-
-// app.use(express.static('uploads'))
-
-// app.get('/folder/file/:fileId', async(req, res) => {// TODO: WHY FOLDER/FILE:ID ACCESSED ON PDF PREVIEWS
-//   const { fileId } = req.params;
-//   let file = await db.getFileById(parseInt(fileId));
-//   let fileName = file.url.split('/')[1];
-
-//   const filePath = path.join(__dirname, 'uploads', fileName);
-//   let fileExtension = file.extention;
-
-
-//   if (fileExtension === 'application/octet-stream' || fileExtension == 'application/pdf') {
-//     res.set({
-//       'Content-Type': 'application/pdf',
-//       'Content-Disposition': `inline; filename="${file.name}"`, // or 'attachment;' to force download
-//     });
-//   }
-
-//   // Check if file exists
-//   fs.access(filePath, fs.constants.F_OK, async(err) => {
-//     if (err) {
-//       return res.status(404).send('File not found');
-//     }
-
-//     // Serve the file
-//     if (file.extention == "application/octet-stream")
-//     {
-//       console.log("SPYYYYY");
-//     }
-
-
-//     res.sendFile(file.url);
-//   });
-// });
-
+app.use(express.json());
 
 
 app.use(
@@ -197,6 +150,12 @@ const checkLink = require('./controllers/linkMiddleware.js');
 app.get('/share/:folder_id', checkLink, (req,res) => {
   console.log(req.session);
   shareController.handleShare(req,res);
+})
+
+
+app.post('/share/folder/:folderId', (req,res) => {
+  console.log(req.body);
+  shareController.shareFolder(req,res);
 })
 
 app.use((req, res, next) => {

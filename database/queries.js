@@ -137,6 +137,17 @@ async function getSharedFolder(id)
   return sharedFolder
 }
 
+async function createShareFolder(folderId, expiresAt)
+{
+  let sharedFolder = await prisma.shared_folders.create({
+    data: {
+      folderId: parseInt(folderId),
+      expiresAt: expiresAt
+    }
+  })
+  return sharedFolder;
+}
+
 async function getFolderName(id)
 {
   let folder = await prisma.folder.findUnique({
@@ -160,5 +171,6 @@ module.exports = {
   getUserFirstFolder,
   createFolder,getFileById,
   getSharedFolder,
-  getFolderName
+  getFolderName,
+  createShareFolder
 };

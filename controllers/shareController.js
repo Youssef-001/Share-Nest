@@ -3,6 +3,33 @@ const handlePreview = require('./previewController');
 const userController = require('./userController')
 
 
+async function shareFolder(req,res)
+{
+    let expiry = req.body.expiry;
+
+    let folderId = req.params.folderId;
+
+    let currentDate = new Date();
+    let daysToAdd = parseInt(expiry.split('-')[0]);
+
+    let newDate = new Date(currentDate);
+    newDate.setDate(newDate.getDate() + daysToAdd);
+
+
+    // testing
+
+    const now = new Date();
+
+// Add one minute to the current time
+now.setMinutes(now.getMinutes() + 2);
+
+    let sharedFolder = await db.createShareFolder(folderId, now);
+
+    const folderLink = sharedFolder.id; // Assuming this is the folder link you want to send
+    res.json({folderLink});
+
+}
+
 async function handleShare(req,res)
 {
 
@@ -38,5 +65,6 @@ async function handleShare(req,res)
 
 
 module.exports = {
-    handleShare 
+    handleShare ,
+    shareFolder
 }

@@ -678,7 +678,7 @@ select:focus {
 
             </form>
           </div>
-          <form id="upload" action="/upload/<%=currentFolder%>" method="post" enctype="multipart/form-data">
+          <form id="upload" action="/upload/<%=currentFolder.id%>" method="post" enctype="multipart/form-data">
 
             <div style="display: flex; padding: 0.5rem;">
               <label for="file-upload" class="custom-file-upload">
@@ -793,7 +793,7 @@ select:focus {
         <div class="duration">
             
             <label for="expiry">Link expires in</label>
-            <form style="display:flex; gap:1rem" action="/folder/<%=currentFolder.id%>">
+            <form id="expiryForm" style="display:flex; gap:1rem" >
 
 
 
@@ -930,7 +930,7 @@ select:focus {
   // Check the URL for the "preview" query parameter
   const urlParams = new URLSearchParams(window.location.search);
   const previewQuery = urlParams.get('preview');
-
+    // urlParams.delete('expiry')
   // If "preview" query exists in the URL, show the preview and adjust grid layout
   if (previewQuery !== null) {
     preview.style.display = 'block'; // Show the preview
@@ -973,4 +973,41 @@ if (urlParams.has('expiry')) {
 </script>
 
 
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  document.getElementById('expiryForm').addEventListener('submit', async function (event) {
+    event.preventDefault(); // Prevent page reload
+
+    // Get the selected value from the form
+    const expiry = document.getElementById('expiry').value;
+
+    try {
+      // Send data to the backend
+      const response = await fetch(`/share/folder/<%=currentFolder.id%>`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ expiry }), // Send expiry value
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch folder link');
+      }
+
+      // Handle response (assumes plain text)
+      const folderLink = await response.json(); 
+      console.log("hereeeeeeeeeeee", folderLink);
+
+      // Update the input field with the link
+      document.querySelector('#link-input').value = `localhost:3005/share/${folderLink.folderLink}`;
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  });
+});
+</script>
+
 </html>
+
