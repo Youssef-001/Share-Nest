@@ -7,7 +7,7 @@ async function createFolder(req,res) {
 
     let parentId;
 
-    if (req.params.path == '') parentId = null;
+    if (!req.params.path) parentId = null;
     else 
 
     {
@@ -18,7 +18,7 @@ async function createFolder(req,res) {
 
         }
         else 
-        parentId = null;
+        parentId = req.params.path;
     }
 
     let folder = await db.createFolder(userId, folderName, parentId);

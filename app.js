@@ -159,6 +159,10 @@ app.get('/folder/:path(*)', (req,res) => {
 })
 
 
+app.post('/create-folder', (req,res) => {
+  folderController.createFolder(req,res);
+
+})
 
 app.post('/create-folder/:path(*)', (req,res) => {
   const folderPath = req.params.path;
