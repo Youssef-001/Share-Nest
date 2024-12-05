@@ -56,18 +56,27 @@ async function renderAuthUser(req, res) {
   let userFolders = await db.getUserFolders(userId);
   console.log(userFolders);
 
+  let subFolders = await db.getSubFolders('a474d91f-03ae-4f16-802c-121866cf8808');
+
   for (let i = 0; i < userFolders.length; i++)
   {
-    let path = await db.getFolderPath(userFolders[i].id);
-    userFolders[i] = {...userFolders[i], path};
+    let subFolders = await db.getSubFolders(userFolders[i].id);
+    userFolders[i] = {...userFolders[i], children: subFolders};
   }
+
+  // for (let i = 0; i < userFolders.length; i++)
+  // {
+  //   let path = await db.getFolderPath(userFolders[i].id);
+  //   userFolders[i] = {...userFolders[i], path};
+  // }
 
   let currentFiles;
   let folderName;
 
   if (folderId != undefined) {
     currentFiles = await db.GetFolderFiles(folderId);
-    folderName = (await db.getFolderName(folderId)).name;
+    folderName = (await db.getFolderName(folderId));
+    folderName = folderName.name;
   } else {
     currentFiles = await db.GetFolderFiles(userFolders[0].id);
     folderName = (await db.getFolderName(userFolders[0].id)).name;
@@ -96,13 +105,16 @@ async function renderAuthUser(req, res) {
   let tree = await db.getFolderPath(folderId);;
 
   
+  let rootFolders = userFolders.filter((folder) => {
+    return folder.parentId == null;
+  })
 
 
   console.log(tree);
 
   res.render("index", {
     authenticated: req.isAuthenticated(),
-    folders: userFolders,
+    folders: rootFolders,
     files: currentFiles,
     currentFolder: { id: req.params.folderId, name: folderName },
     previewObj,

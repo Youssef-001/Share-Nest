@@ -21,7 +21,9 @@ async function createFolder(req,res) {
         parentId = req.params.path;
     }
 
-    let folder = await db.createFolder(userId, folderName, parentId);
+    let pathField = `/${req.params.path}`;
+
+    let folder = await db.createFolder(userId, folderName, parentId, pathField);
 
     res.redirect('/folders');
 }

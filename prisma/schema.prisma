@@ -51,6 +51,7 @@ model folder {
   parentId  String?     
   parent    folder?  @relation("ParentFolder", fields: [parentId], references: [id])
   children  folder[] @relation("ParentFolder")
+  path String @default("/")
 }
 
 model shared_folders {

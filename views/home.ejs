@@ -544,6 +544,29 @@ select:focus {
     color: black
 }
 
+ul, ol {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  list-style: none;
+  display:flex;
+  align-items: center;
+  gap: 10px
+}
+
+ul{
+  display:flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+
+}
+
+
 #generate{
 
     margin-right: 2rem;
@@ -561,6 +584,11 @@ select:focus {
 
 }
 
+ul,li {
+  padding: 0;
+  margin: 0;
+}
+
 </style>
 
 
@@ -571,20 +599,56 @@ select:focus {
   <main>
 
     <nav>
-
-      <div class="folders">
-
+      <ol class="folders">
         <% folders.forEach(function(folder) { %>
-        <div class="folder">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M15 13.5H9m4.06-7.19-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
-          </svg>
-
-          <a href="/folder<%= folder.path %>"><%= folder.name %></a>
-
-        </div>
+          <li class="folder" style="display: flex; flex-direction: column;">
+            <!-- Folder item -->
+            <div style="display:flex; justify-content: center; align-items: center; gap: 10px">
+              <!-- Only add toggle button if the folder has children (subfolders) -->
+              <% if (folder.children && folder.children.length > 0) { %>
+                <button class="toggle-btn" data-id="<%= folder.id %>">+</button>
+              <% } %>
+      
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 13.5H9m4.06-7.19-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
+              </svg>
+      
+              <a href="/folder/<%= folder.id %>" class="folder-link" data-id="<%= folder.id %>"><%= folder.name %></a>
+            </div>
+      
+            <% if (folder.children && folder.children.length > 0) { %>
+              <!-- Nested folders (subfolders) -->
+              <ol id="subfolder-<%= folder.id %>" class="subfolder-container" style="display: none;">
+                <% folder.children.forEach(function(child) { %>
+                  <li>
+                    <!-- Only add toggle button if the child folder has its own subfolders -->
+                    <% if (child.children && child.children.length > 0) { %>
+                      <button class="toggle-btn" data-id="<%= child.id %>">+</button>
+                    <% } %>
+      
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M15 13.5H9m4.06-7.19-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
+                    </svg>
+      
+                    <a href="/folder/<%= folder.id %>/<%= child.id %>" class="folder-link" data-id="<%= child.id %>"><%= child.name %></a>
+      
+                    <% if (child.children && child.children.length > 0) { %>
+                      <!-- Nested child subfolders -->
+                      <ol id="subfolder-<%= child.id %>" class="subfolder-container" style="display: none;">
+                        <% child.children.forEach(function(grandchild) { %>
+                          <li>
+                            <a href="/folder/<%= child.id %>/<%= grandchild.id %>" class="folder-link"><%= grandchild.name %></a>
+                          </li>
+                        <% }); %>
+                      </ol>
+                    <% } %>
+                  </li>
+                <% }); %>
+              </ol>
+            <% } %>
+          </li>
         <% }); %>
-      </div>
+      </ol>
 
 
     </nav>
@@ -1007,6 +1071,33 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 });
+</script>
+
+
+<script>
+  // Function to toggle visibility of subfolders
+  document.addEventListener('DOMContentLoaded', function() {
+    const toggleBtns = document.querySelectorAll('.toggle-btn');
+
+    toggleBtns.forEach(btn => {
+      btn.addEventListener('click', function(event) {
+        // Prevent page refresh when the button is clicked
+        event.preventDefault();
+
+        const folderId = event.target.getAttribute('data-id');
+        const subfolderContainer = document.getElementById(`subfolder-${folderId}`);
+
+        // Toggle visibility of the subfolder container
+        if (subfolderContainer) {
+          const isVisible = subfolderContainer.style.display !== 'none';
+          subfolderContainer.style.display = isVisible ? 'none' : 'block';
+          
+          // Toggle button text
+          btn.textContent = isVisible ? '+' : '-';
+        }
+      });
+    });
+  });
 </script>
 
 </html>
