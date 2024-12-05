@@ -124,7 +124,7 @@ app.post(
 
 
 
-app.post('/upload/:folder', upload.single('file'), function (req, res, next) {
+app.post('/upload/:path(*)', upload.single('file'), function (req, res, next) {
   console.log(req.file);
   if (req.file.mimetype == "application/octet-stream") 
   {

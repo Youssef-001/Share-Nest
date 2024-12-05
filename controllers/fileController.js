@@ -2,7 +2,17 @@ const db = require("../database/queries");
 const cloud = require('../cloudinary');
 
 async function fileUpload(req, res, next) {
-  let folderId = req.params.folder;
+  let folderId;
+
+  if (req.params.path.includes('/'))
+  {
+    let folderSegments = req.params.path.split('/');
+    folderId = folderSegments[folderSegments.length  - 1];
+  }
+  
+  else {
+    folderId = req.params.path;
+  }
 
 
 

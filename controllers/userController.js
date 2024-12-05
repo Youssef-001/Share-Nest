@@ -65,7 +65,7 @@ async function renderAuthUser(req, res) {
   let currentFiles;
   let folderName;
 
-  if (req.params.folderId != undefined) {
+  if (folderId != undefined) {
     currentFiles = await db.GetFolderFiles(folderId);
     folderName = (await db.getFolderName(folderId)).name;
   } else {
