@@ -260,7 +260,7 @@
   nav {
     grid-column: 1/2;
     grid-row: 1/-1;
-    margin-right: 8rem;
+    margin-right: 5rem;
 
   }
 
@@ -551,18 +551,17 @@ ul, ol {
 }
 
 li {
-  list-style: none;
+  /* list-style: none;
   display:flex;
   align-items: center;
-  gap: 10px
+  gap: 10px; */
+
 }
 
-ul{
-  display:flex;
+ol,ul{
+  /* display:flex;
   flex-direction: column;
-  gap: 1rem;
-  align-items: center;
-  justify-content: center;
+  gap: 1rem; */
 
 }
 
@@ -589,6 +588,12 @@ ul,li {
   margin: 0;
 }
 
+.folder-div{
+  display:flex;
+  justify-content: center;
+  align-items: center;
+}
+
 </style>
 
 
@@ -601,9 +606,9 @@ ul,li {
     <nav>
       <ol class="folders">
         <% folders.forEach(function(folder) { %>
-          <li class="folder" style="display: flex; flex-direction: column;">
+          <li class="folder">
             <!-- Folder item -->
-            <div style="display:flex; justify-content: center; align-items: center; gap: 10px">
+            <div class="folder-div">
               <!-- Only add toggle button if the folder has children (subfolders) -->
               <% if (folder.children && folder.children.length > 0) { %>
                 <button class="toggle-btn" data-id="<%= folder.id %>">+</button>
@@ -1048,7 +1053,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     try {
       // Send data to the backend
-      const response = await fetch(`/share/folder/<%=currentFolder.id%>`, {
+      const response = await fetch(`/share/folder<%=folderPath%>`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

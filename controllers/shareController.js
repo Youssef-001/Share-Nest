@@ -9,6 +9,16 @@ async function shareFolder(req,res)
 
     let folderId = req.params.folderId;
 
+    if (req.params.path.includes('/'))
+    {
+        let pathSegments = req.params.path.split('/');
+        folderId = pathSegments[pathSegments.length-1];
+    }
+    else 
+    {
+        folderId = req.params.path;
+    }
+
     let currentDate = new Date();
     let daysToAdd = parseInt(expiry.split('-')[0]);
 
@@ -28,6 +38,8 @@ async function handleShare(req,res)
 {
 
     let shared_folder_id = req.params.folder_id;
+
+    
     
     let shared_folder = await db.getSharedFolder(shared_folder_id);
 

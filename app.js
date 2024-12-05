@@ -177,7 +177,7 @@ app.get('/share/:folder_id', checkLink, (req,res) => {
 })
 
 
-app.post('/share/folder/:folderId', (req,res) => {
+app.post('/share/folder/:path(*)', (req,res) => {
   console.log(req.body);
   shareController.shareFolder(req,res);
 })
@@ -200,4 +200,4 @@ app.get("/logout", (req, res, next) => {
   });
 });
 
-app.listen(3006, (req, res) => {});
+app.listen(3000, (req, res) => {});
