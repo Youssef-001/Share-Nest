@@ -48,7 +48,9 @@ model folder {
   ownerId Int
   files   file[]
   shares  shared_folders[]
-  parent String           @default("root")
+  parentId  String?     
+  parent    folder?  @relation("ParentFolder", fields: [parentId], references: [id])
+  children  folder[] @relation("ParentFolder")
 }
 
 model shared_folders {
@@ -58,39 +60,3 @@ model shared_folders {
   expiresAt   DateTime // Add expiration time
   createdAt   DateTime @default(now())
 }
-
-// enum FileExtension {
-//   // Documents
-//   PDF
-//   DOCX
-//   XLSX
-//   PPTX
-//   TXT
-
-//   // Images
-//   JPG
-//   PNG
-//   GIF
-//   SVG
-
-//   // Videos
-//   MP4
-//   MKV
-//   AVI
-
-//   // Audio
-//   MP3
-//   WAV
-
-//   // Archives
-//   ZIP
-//   RAR
-
-//   // Code Files
-//   HTML
-//   CSS
-//   JS
-
-//   // Miscellaneous
-//   EXE
-// }

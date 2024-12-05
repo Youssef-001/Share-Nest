@@ -2,13 +2,28 @@ const db = require('../database/queries')
 
 
 async function createFolder(req,res) {
-    console.log(req);
     let userId = req.session.passport.user;
     let folderName = req.body.folderName;
 
-    let folder = await db.createFolder(userId, folderName);
+    let parentId;
 
-    res.redirect('/');
+    if (req.params.path == '') parentId = null;
+    else 
+
+    {
+        if (req.params.path.includes('/'))
+        {
+            let pathParts = req.params.path.split('/');
+            parentId = pathParts[pathParts.length-1];
+
+        }
+        else 
+        parentId = null;
+    }
+
+    let folder = await db.createFolder(userId, folderName, parentId);
+
+    res.redirect('/folders');
 }
 
 async function renderFolders(req,res)

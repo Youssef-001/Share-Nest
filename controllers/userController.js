@@ -41,16 +41,33 @@ function handleSearchQuery(query, currentFiles) {
 }
 
 async function renderAuthUser(req, res) {
+
+  let folderId;
+  if (req.params.path.includes('/'))
+  {
+    let pathSegments = req.params.path.split('/');
+    folderId = pathSegments[pathSegments.length - 1];
+  }
+  else {
+    folderId = req.params.path;
+  }
+
   let userId = req.session.passport.user;
   let userFolders = await db.getUserFolders(userId);
   console.log(userFolders);
+
+  for (let i = 0; i < userFolders.length; i++)
+  {
+    let path = await db.getFolderPath(userFolders[i].id);
+    userFolders[i] = {...userFolders[i], path};
+  }
 
   let currentFiles;
   let folderName;
 
   if (req.params.folderId != undefined) {
-    currentFiles = await db.GetFolderFiles(req.params.folderId);
-    folderName = (await db.getFolderName(req.params.folderId)).name;
+    currentFiles = await db.GetFolderFiles(folderId);
+    folderName = (await db.getFolderName(folderId)).name;
   } else {
     currentFiles = await db.GetFolderFiles(userFolders[0].id);
     folderName = (await db.getFolderName(userFolders[0].id)).name;
@@ -72,12 +89,24 @@ async function renderAuthUser(req, res) {
     currentFiles = handleSearchQuery(req.query.search, currentFiles);
   }
 
+  // query give it current folder, that returns tree of nested folders
+
+
+
+  let tree = await db.getFolderPath(folderId);;
+
+  
+
+
+  console.log(tree);
+
   res.render("index", {
     authenticated: req.isAuthenticated(),
     folders: userFolders,
     files: currentFiles,
     currentFolder: { id: req.params.folderId, name: folderName },
     previewObj,
+    folderPath: tree
   });
 }
 

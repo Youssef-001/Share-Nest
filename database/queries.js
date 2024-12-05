@@ -95,11 +95,12 @@ async function getUserFirstFolder(id) {
   return folder;
 }
 
-async function createFolder(userId, folderName) {
+async function createFolder(userId, folderName, parentId) {
   let folder = await prisma.folder.create({
     data: {
       ownerId: userId,
       name: folderName,
+      parentId: parentId
     },
   });
 
@@ -159,6 +160,50 @@ async function getFolderName(id)
 }
 
 
+async function getFolderPath(folderId) {
+  const path = [];
+
+  let currentFolder = await prisma.folder.findUnique({
+    where: { id: folderId },
+    select: {
+      id: true,
+      name: true,
+      parentId: true, // Assuming the parent folder is referenced with `parentId`
+    },
+  });
+
+  while (currentFolder) {
+    // Add the current folder to the path
+    path.unshift({
+      id: currentFolder.id,
+      name: currentFolder.name,
+    });
+
+    // Fetch the parent folder
+    currentFolder = currentFolder.parentId
+      ? await prisma.folder.findUnique({
+          where: { id: currentFolder.parentId },
+          select: {
+            id: true,
+            name: true,
+            parentId: true,
+          },
+        })
+      : null; // Stop if there's no parent
+  }
+
+  let tree = "";
+
+  
+  path.forEach((folder) => {
+    tree += `/${folder.id}`;
+
+  })
+
+  return tree;
+}
+
+
 module.exports = {
   createUser,
   getUser,
@@ -172,5 +217,6 @@ module.exports = {
   createFolder,getFileById,
   getSharedFolder,
   getFolderName,
-  createShareFolder
+  createShareFolder,
+  getFolderPath
 };

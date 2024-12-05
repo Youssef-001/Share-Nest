@@ -133,6 +133,17 @@ app.post('/upload/:folder', upload.single('file'), function (req, res, next) {
   fileController.fileUpload(req,res,next);
 })
 
+app.param('folders', (req, res, next, folders) => {
+  req.folders = folders.split('/');
+  next();
+});
+
+app.param('create-folder', (req, res, next, folders) => {
+  req.folders = folders.split('/');
+  next();
+});
+
+
 
 app.get('/folders', (req, res, next) => {
   isAuth(req, res, next); 
@@ -142,14 +153,15 @@ app.get('/folders', (req, res, next) => {
 
 
 
-app.get('/folder/:folderId', (req,res) => {
+app.get('/folder/:path(*)', (req,res) => {
   //
   userController.renderAuthUser(req,res);
 })
 
 
 
-app.post('/create-folder', (req,res) => {
+app.post('/create-folder/:path(*)', (req,res) => {
+  const folderPath = req.params.path;
   folderController.createFolder(req,res);
 })
 
@@ -184,4 +196,4 @@ app.get("/logout", (req, res, next) => {
   });
 });
 
-app.listen(3005, (req, res) => {});
+app.listen(3006, (req, res) => {});

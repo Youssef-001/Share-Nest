@@ -15,3 +15,6 @@ app.get('/folder/*')
 // Handle create nested folder first
 - page for All folders where user can create parent level folders
 - Step one will be to handle route to view all folders, app.get('/folders');
+
+- Edit <form id="create-folder-form" method="POST" action="/create-folder"> in folders.ejs to recieve tree of parent folders after create-folder
+then handle the folder creation, now you can tell where you are creating that folder from.
