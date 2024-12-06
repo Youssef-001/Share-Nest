@@ -135,6 +135,10 @@ app.post('/upload/:path(*)', upload.single('file'), function (req, res, next) {
   fileController.fileUpload(req,res,next);
 })
 
+app.post('/file/delete/:fileId', (req,res) => {
+  fileController.deleteFile(req,res);
+})
+
 app.param('folders', (req, res, next, folders) => {
   req.folders = folders.split('/');
   next();

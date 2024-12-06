@@ -42,7 +42,9 @@ function handleSearchQuery(query, currentFiles) {
 
 async function renderAuthUser(req, res) {
 
-  let folderId;
+  let folderId = -1;
+  if (req.params.path != undefined)
+  {
   if (req.params.path.includes('/'))
   {
     let pathSegments = req.params.path.split('/');
@@ -51,24 +53,24 @@ async function renderAuthUser(req, res) {
   else {
     folderId = req.params.path;
   }
+}
+
+if (folderId == -1)
+{
+  folderId = await db.getUserFirstFolder(req.session.passport.user);
+  folderId=folderId.id;
+}
+
 
   let userId = req.session.passport.user;
   let userFolders = await db.getUserFolders(userId);
-  console.log(userFolders);
 
-  let subFolders = await db.getSubFolders('a474d91f-03ae-4f16-802c-121866cf8808');
 
   for (let i = 0; i < userFolders.length; i++)
   {
     let subFolders = await db.getSubFolders(userFolders[i].id);
     userFolders[i] = {...userFolders[i], children: subFolders};
   }
-
-  // for (let i = 0; i < userFolders.length; i++)
-  // {
-  //   let path = await db.getFolderPath(userFolders[i].id);
-  //   userFolders[i] = {...userFolders[i], path};
-  // }
 
   let currentFiles;
   let folderName;
@@ -79,7 +81,8 @@ async function renderAuthUser(req, res) {
     folderName = folderName.name;
   } else {
     currentFiles = await db.GetFolderFiles(userFolders[0].id);
-    folderName = (await db.getFolderName(userFolders[0].id)).name;
+    folderName = (await db.getFolderName(userFolders[0].id))
+    folderName = folderName.name
   }
 
   for (let i = 0; i < currentFiles.length; i++) {

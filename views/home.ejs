@@ -173,7 +173,7 @@
 
   .file {
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr;
+    grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
 
 
 
@@ -811,6 +811,7 @@ ul,li {
             <p>Type</p>
             <p>Size</p>
             <p>Date</p>
+            <p>Action</p>
           </div>
           <% files.forEach(function(file) { %>
           <!-- Wrap the file item with an <a> tag for linking -->
@@ -833,6 +834,11 @@ ul,li {
               <p><%= file.extention %></p>
               <p><%= file.size %> MB</p>
               <p><%= file.Date %></p>
+              <form id="file-delete" action="" method="POST">              <button type="submit">
+                <i class="fa-solid fa-trash" style="color: #ef4444; font-size: 1.5rem"></i>
+              </button>
+              </form>
+              
             </div>
           </a>
           <% }); %>
@@ -1104,6 +1110,35 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 </script>
+
+// script for deleting a file -> assign action for the submit form
+
+<script>
+  // Select all forms with the ID 'file-delete'
+  let forms = document.querySelectorAll('#file-delete');
+  console.log(forms)
+
+  // Loop through each form and attach a submit event listener
+  forms.forEach((form) => {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault(); // Prevent default form submission
+      // Dynamically assign the action based on the parent element's ID
+      const parentId = form.parentNode.id; // Update this logic if needed
+      console.log(parentId);
+      if (parentId) {
+        form.action = `/file/delete/${parentId}`;
+        console.log(`Form action set to: ${form.action}`);
+      } else {
+        console.error('Parent ID not found. Action not set.');
+      }
+      form.submit();
+
+      // Optionally, submit the form programmatically
+      // form.submit();
+    });
+  });
+</script>
+
 
 </html>
 

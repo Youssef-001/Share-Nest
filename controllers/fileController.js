@@ -35,6 +35,25 @@ async function fileUpload(req, res, next) {
   res.redirect(`/folder/${folderId}`);
 }
 
-module.exports = { fileUpload };
+
+async function deleteFile(req,res) {
+  let fileId = req.params.fileId;
+  let file = await db.getFileById(fileId);
+  let public_id = file.url.split('/foo');
+  public_id = public_id[1];
+  public_id = public_id.split('.');
+  public_id = public_id[0];
+  public_id = `foo${public_id}`;
+
+  cloud.deleteFileCloud(public_id);
+  await db.deleteFile(fileId);
+
+  res.redirect('/');
+}
+
+
+
+
+module.exports = { fileUpload,deleteFile };
 
 

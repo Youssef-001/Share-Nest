@@ -62,7 +62,7 @@ async function getUserFolders(id) {
 async function GetFolderFiles(id) {
   let folderFiles = await prisma.file.findMany({
     where: {
-      folderId: (id),
+      folderId: id,
     },
   });
 
@@ -113,7 +113,7 @@ async function getFileById(id)
 {
     let file = await prisma.file.findUnique({
         where: {
-            id: id
+            id: parseInt(id)
         }
     })
 
@@ -225,6 +225,16 @@ async function getSubFolders(folderId)
 }
 
 
+async function deleteFile(id)
+{
+  await prisma.file.delete({
+    where: {
+      id: parseInt(id)
+    }
+  })
+}
+
+
 module.exports = {
   createUser,
   getUser,
@@ -240,5 +250,6 @@ module.exports = {
   getFolderName,
   createShareFolder,
   getFolderPath,
-  getSubFolders
+  getSubFolders,
+  deleteFile
 };

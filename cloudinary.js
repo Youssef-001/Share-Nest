@@ -47,4 +47,18 @@ async function uploadFile(file) {
     });
 }
 
-module.exports = {uploadFile}
+function deleteFileCloud(public_id)
+{
+    cloudinary.uploader.destroy(public_id, (error, result) => {
+        if (error) {
+          console.error('Error deleting file:', error);
+        } else {
+          console.log('File deleted successfully:', result);
+        }
+      });
+}
+
+
+
+
+module.exports = {uploadFile, deleteFileCloud}
