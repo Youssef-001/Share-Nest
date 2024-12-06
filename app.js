@@ -19,6 +19,8 @@ const userController = require('./controllers/userController')
 const folderController = require('./controllers/folderController')
 const https = require('https');
 const fs = require('fs');
+require('dotenv').config();
+
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 const shareController = require('./controllers/shareController')
@@ -200,4 +202,4 @@ app.get("/logout", (req, res, next) => {
   });
 });
 
-app.listen(3000, (req, res) => {});
+app.listen(process.env.PORT, (req, res) => {});
