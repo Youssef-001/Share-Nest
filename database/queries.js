@@ -263,13 +263,13 @@ async function deleteSubFolders(folderId) {
 async function deleteFolderTransaction(folderId) {
   // Handle subfolder deletions first (not part of the transaction directly)
   await deleteSubFolders(folderId);
-  await deleteFolderIt(folderId);
-
+  
   // Execute the main transaction for the current folder
   await prisma.$transaction([
     prisma.file.deleteMany({ where: { folderId: folderId } }), // Direct Prisma Client call
     prisma.shared_folders.deleteMany({ where: { folderId: folderId } }), // Direct Prisma Client call
   ]);
+  await deleteFolderIt(folderId);
 }
 module.exports = {
   createUser,
