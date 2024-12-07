@@ -36,6 +36,19 @@ async function renderFolders(req,res)
     res.render('folders',{folders, authenticated: req.isAuthenticated()}) ;
 }
 
+async function deleteFolder(req,res)
+{
+    if (req.params.path.includes('undefined'))
+    {
+        req.params.path.replace('undefined','');
+    }
+    let folderId = req.params.path.substr(10);
+    // let subFolders = db.getSubFolders(folderId);
+    await db.deleteFolderTransaction(folderId); 
+    res.redirect('/folders')
 
 
-module.exports = {createFolder, renderFolders}
+}
+
+
+module.exports = {createFolder, renderFolders, deleteFolder}

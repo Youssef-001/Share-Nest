@@ -162,6 +162,11 @@ app.get('/folder/:path(*)', (req,res) => {
   userController.renderAuthUser(req,res);
 })
 
+app.post('/folder/delete/:path(*)', (req,res) => {
+  // handle deleting folder
+  folderController.deleteFolder(req,res);
+})
+
 
 app.post('/create-folder', (req,res) => {
   folderController.createFolder(req,res);
