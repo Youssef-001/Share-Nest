@@ -59,6 +59,7 @@ if (folderId == -1)
 {
   folderId = await db.getUserFirstFolder(req.session.passport.user);
   folderId=folderId.id;
+  
 }
 
 

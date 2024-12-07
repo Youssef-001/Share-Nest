@@ -55,10 +55,8 @@ app.get("/", async(req, res) => {
   if (req.isAuthenticated() == false)
     res.redirect('/login');
   else{
-    let firstFolder = await db.getUserFirstFolder(req.session.passport.user);
-    res.redirect(`/folder/${firstFolder.id}`)
+    res.redirect('/folders');
 
-      userController.renderAuthUser(req,res);
   }
 });
 

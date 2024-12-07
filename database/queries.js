@@ -91,8 +91,9 @@ async function getUserFirstFolder(id) {
       ownerId: id,
     },
   });
-
+  
   return folder;
+  
 }
 
 async function createFolder(userId, folderName, parentId, path) {
