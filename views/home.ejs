@@ -1076,7 +1076,7 @@ document.addEventListener('DOMContentLoaded', function () {
       console.log("hereeeeeeeeeeee", folderLink);
 
       // Update the input field with the link
-      document.querySelector('#link-input').value = `localhost:3005/share/${folderLink.folderLink}`;
+      document.querySelector('#link-input').value = `localhost:<%=port%>/share/${folderLink.folderLink}`;
     } catch (error) {
       console.error('Error:', error);
     }

@@ -114,6 +114,9 @@ if (folderId == -1)
 
 
   console.log(tree);
+  req.port = process.env.PORT;
+  console.log(req.port);
+
 
   res.render("index", {
     authenticated: req.isAuthenticated(),
@@ -121,7 +124,8 @@ if (folderId == -1)
     files: currentFiles,
     currentFolder: { id: req.params.folderId, name: folderName },
     previewObj,
-    folderPath: tree
+    folderPath: tree,
+    port: req.port
   });
 }
 
