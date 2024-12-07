@@ -22,6 +22,8 @@ async function createFolder(req,res) {
     }
 
     let pathField = `/${req.params.path}`;
+    if (req.params.path == undefined)
+        pathField = '/';
 
     let folder = await db.createFolder(userId, folderName, parentId, pathField);
 
@@ -42,7 +44,7 @@ async function deleteFolder(req,res)
     {
         req.params.path.replace('undefined','');
     }
-    let folderId = req.params.path.substr(10);
+    let folderId = req.params.path.substr(1);
     // let subFolders = db.getSubFolders(folderId);
     await db.deleteFolderTransaction(folderId); 
     res.redirect('/folders')
