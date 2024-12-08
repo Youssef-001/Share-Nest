@@ -72,10 +72,6 @@
 
   }
 
-  .folders {
-    grid-column: 1/-1;
-    grid-row: 2/-1;
-  }
 
 
   .empty {
@@ -265,21 +261,92 @@
   }
 
   .folders {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    gap: 2rem;
-    margin-left: 4rem;
-    margin-top: 1rem;
+
 
   }
 
   .folder {
-    display: flex;
-    gap: 1rem;
-    flex: 1;
-    align-items: center;
+
   }
+
+  /* General Styling */
+nav {
+  font-family: Arial, sans-serif;
+  display:flex;
+
+}
+
+.folders {
+  padding-left: 0;
+  margin: 0;
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+
+}
+
+.folder,
+.child-folder,
+.grandchild-folder {
+  margin-left: 20px;
+  padding: 5px 0;
+
+}
+.grandchild-folder{
+  display:flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem
+}
+
+/* Folder Div Styling */
+.folder-div,
+.child-folder-div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Toggle Button Styling */
+.toggle-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  padding: 2px 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.toggle-btn:hover {
+  background-color: #0056b3;
+}
+
+/* Folder Icon */
+/* .size-6 {
+  width: 20px;
+  height: 20px;
+  color: #6c757d;
+} */
+
+/* Folder Links */
+.folder-link {
+  text-decoration: none;
+  color: #007bff;
+  font-weight: bold;
+}
+
+.folder-link:hover {
+  color: #0056b3;
+}
+
+/* Subfolder Container */
+.subfolder-container {
+  margin-left: 20px;
+  padding-left: 10px;
+  border-left: 2px dashed #ccc;
+}
 
   .folder:hover {
     background-color: #f0f8ff;
@@ -602,62 +669,70 @@ ul,li {
 
 
   <main>
-
     <nav>
-      <ol class="folders">
+      <div class="folders">
         <% folders.forEach(function(folder) { %>
-          <li class="folder">
+          <div class="folder">
             <!-- Folder item -->
             <div class="folder-div">
               <!-- Only add toggle button if the folder has children (subfolders) -->
               <% if (folder.children && folder.children.length > 0) { %>
                 <button class="toggle-btn" data-id="<%= folder.id %>">+</button>
               <% } %>
-      
+    
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M15 13.5H9m4.06-7.19-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
               </svg>
-      
+    
               <a href="/folder/<%= folder.id %>" class="folder-link" data-id="<%= folder.id %>"><%= folder.name %></a>
             </div>
-      
+    
             <% if (folder.children && folder.children.length > 0) { %>
               <!-- Nested folders (subfolders) -->
-              <ol id="subfolder-<%= folder.id %>" class="subfolder-container" style="display: none;">
+              <div id="subfolder-<%= folder.id %>" class="subfolder-container" style="display: none;">
                 <% folder.children.forEach(function(child) { %>
-                  <li>
-                    <!-- Only add toggle button if the child folder has its own subfolders -->
+                  <div class="child-folder">
+                    <div class="child-folder-div">
+                      <% if (child.children && child.children.length > 0) { %>
+                        <button class="toggle-btn" data-id="<%= child.id %>">+</button>
+                      <% } %>
+
+                      <div style="display:flex; justify-content: center; align-items: center;">
+
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M15 13.5H9m4.06-7.19-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
+                        </svg>
+      
+                        <a href="/folder/<%= folder.id %>/<%= child.id %>" class="folder-link" data-id="<%= child.id %>"><%= child.name %></a>
+                      </div>
+                      </div>
+    
+    
                     <% if (child.children && child.children.length > 0) { %>
-                      <button class="toggle-btn" data-id="<%= child.id %>">+</button>
-                    <% } %>
-      
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M15 13.5H9m4.06-7.19-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
-                    </svg>
-      
-                    <a href="/folder/<%= folder.id %>/<%= child.id %>" class="folder-link" data-id="<%= child.id %>"><%= child.name %></a>
-      
-                    <% if (child.children && child.children.length > 0) { %>
-                      <!-- Nested child subfolders -->
-                      <ol id="subfolder-<%= child.id %>" class="subfolder-container" style="display: none;">
+                      <div id="subfolder-<%= child.id %>" class="subfolder-container" style="display: none;">
                         <% child.children.forEach(function(grandchild) { %>
-                          <li>
-                            <a href="/folder/<%= child.id %>/<%= grandchild.id %>" class="folder-link"><%= grandchild.name %></a>
-                          </li>
+                          <div class="grandchild-folder">
+
+
+                            <div style="display:flex; justify-content: center; align-items: center;">
+                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 13.5H9m4.06-7.19-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
+                              </svg>
+                              <a href="/folder/<%= child.id %>/<%= grandchild.id %>" class="folder-link"><%= grandchild.name %></a>
+                            </div>
+                            
+                          </div>
                         <% }); %>
-                      </ol>
+                      </div>
                     <% } %>
-                  </li>
+                  </div>
                 <% }); %>
-              </ol>
+              </div>
             <% } %>
-          </li>
+          </div>
         <% }); %>
-      </ol>
-
-
+      </div>
     </nav>
-
 
 
 
