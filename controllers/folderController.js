@@ -45,7 +45,12 @@ async function deleteFolder(req,res)
         req.params.path.replace('undefined','');
     }
     let folderId = req.params.path.substr(1);
-    // let subFolders = db.getSubFolders(folderId);
+    if (folderId.includes('/'))
+    {
+        folderPath = folderId.split('/');
+        folderId = folderPath[folderPath.length-1];
+    }
+    
     await db.deleteFolderTransaction(folderId); 
     res.redirect('/folders')
 
