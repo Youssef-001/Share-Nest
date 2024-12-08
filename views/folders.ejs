@@ -535,7 +535,7 @@ iframe{
                                 <p style="color: #74747d">Enter a name for your new folder.</p>
                             </div>
             
-                            <form id="create-folder-form" method="POST" action="/create-folder">
+                            <form id="create-folder-form" method="POST" action="/folder/create-folder">
                                 <label style="font-weight: 600" for="Name">Folder name</label>
                                 <input id="input-folder" type="text" placeholder="My folder" name="folderName">
             
@@ -559,7 +559,8 @@ iframe{
 
                 <div class="folders">
 
-                    <% folders.forEach(function(folder) { %>
+                    <% folders.forEach(function(folder) { console.log(folder.path) %>
+
                         <div class="folder">
 
                             <div id="folder-div">

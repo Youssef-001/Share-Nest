@@ -1,5 +1,4 @@
 const express = require("express");
-const session = require("express-session");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const bcrypt = require("bcryptjs");
@@ -8,22 +7,20 @@ const expressSession = require("express-session");
 const PrismaSessionStore = require('./database/store');
 const { PrismaClient } = require("@prisma/client");
 const path = require("path");
-const PrismaStore = require('@quixo3/prisma-session-store').PrismaSessionStore;
 const db = require("./database/queries");
 app.use(express.urlencoded({ extended: false }));
-const prisma = new PrismaClient();
 const multer  = require('multer')
 const upload = multer()
 const fileController = require('./controllers/fileController')
-const userController = require('./controllers/userController')
 const folderController = require('./controllers/folderController')
-const https = require('https');
-const fs = require('fs');
+
 require('dotenv').config();
 
+const sign_up_router = require('./routers/sign-up.js');
+const folder_router = require('./routers/folder.js');
+const share_router = require('./routers/share.js');
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
-const shareController = require('./controllers/shareController')
 const isAuth = require('./controllers/authController.js')
 app.use(express.json());
 
@@ -60,20 +57,14 @@ app.get("/", async(req, res) => {
   }
 });
 
+app.use('/sign-up', sign_up_router)
 
-app.get("/sign-up", (req, res) => {
-  res.render("sign-up", {authenticated: req.isAuthenticated()});
-});
 
 app.get("/login", (req, res) => {
   console.log(req.isAuthenticated());
   res.render("login", {authenticated: req.isAuthenticated()});
 });
 
-app.post("/sign-up", async (req, res, next) => {
-  userController.createUser(req,res,next);
-  
-});
 
 passport.use(
   new LocalStrategy(
@@ -137,17 +128,8 @@ app.post('/file/delete/:fileId', (req,res) => {
   fileController.deleteFile(req,res);
 })
 
-app.param('folders', (req, res, next, folders) => {
-  req.folders = folders.split('/');
-  next();
-});
 
-app.param('create-folder', (req, res, next, folders) => {
-  req.folders = folders.split('/');
-  next();
-});
-
-
+app.use('/folder', folder_router)
 
 app.get('/folders', (req, res, next) => {
   isAuth(req, res, next); 
@@ -155,41 +137,7 @@ app.get('/folders', (req, res, next) => {
   folderController.renderFolders(req, res); 
 });
 
-
-
-app.get('/folder/:path(*)', (req,res) => {
-  //
-  userController.renderAuthUser(req,res);
-})
-
-app.post('/folder/delete/:path(*)', (req,res) => {
-  // handle deleting folder
-  folderController.deleteFolder(req,res);
-})
-
-
-app.post('/create-folder', (req,res) => {
-  folderController.createFolder(req,res);
-
-})
-
-app.post('/create-folder/:path(*)', (req,res) => {
-  const folderPath = req.params.path;
-  folderController.createFolder(req,res);
-})
-
-const checkLink = require('./controllers/linkMiddleware.js');
-
-app.get('/share/:folder_id', checkLink, (req,res) => {
-  console.log(req.session);
-  shareController.handleShare(req,res);
-})
-
-
-app.post('/share/folder/:path(*)', (req,res) => {
-  console.log(req.body);
-  shareController.shareFolder(req,res);
-})
+app.use('/share', share_router);
 
 app.use((req, res, next) => {
   console.log('Session:', req.session);
